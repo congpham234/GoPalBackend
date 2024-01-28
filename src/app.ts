@@ -1,12 +1,12 @@
-import express, { Express } from 'express';
-import { Server } from 'http';
+import express, {Express} from 'express';
+import {Server} from 'http';
 import routes from './routes';
 
 const app: Express = express();
 let server: Server | null = null;
 
-if (process.env.ENVIRONMENT !== "lambda") {
-  let port: number = Number(process.env.PORT) || 3000;
+if (process.env.ENVIRONMENT !== 'lambda') {
+  const port: number = Number(process.env.PORT) || 3000;
 
   server = app.listen(port, () => {
     console.log(`Server running on port: ${port}`);

@@ -1,8 +1,9 @@
-import { handler } from '../src/lambda-handler';
-import { Context, APIGatewayEvent } from 'aws-lambda';
+import {handler} from '../src/lambda-handler';
+import {Context, APIGatewayEvent} from 'aws-lambda';
 import awsServerlessExpress from 'aws-serverless-express';
 
-const eventMock: jest.Mocked<APIGatewayEvent> = {} as jest.Mocked<APIGatewayEvent>;
+const eventMock: jest.Mocked<APIGatewayEvent> =
+  {} as jest.Mocked<APIGatewayEvent>;
 const contextMock: jest.Mocked<Context> = {} as jest.Mocked<Context>;
 
 // Mock the createServer function with jest.fn()
@@ -22,7 +23,12 @@ describe('Lambda Handler', () => {
     // Check if aws-serverless-express.createServer was called
     expect(awsServerlessExpress.createServer).toHaveBeenCalled();
 
-    // Check if aws-serverless-express.proxy was called with the correct arguments
-    expect(awsServerlessExpress.proxy).toHaveBeenCalledWith({}, eventMock, contextMock);
+    // Check if aws-serverless-express.proxy
+    // was called with the correct arguments
+    expect(awsServerlessExpress.proxy).toHaveBeenCalledWith(
+        {},
+        eventMock,
+        contextMock,
+    );
   });
 });
