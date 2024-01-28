@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app, {closeServer} from '../src/app';
+import app, { closeServer } from '../src/app';
 
 describe('Express App', () => {
   afterEach(() => {
@@ -15,6 +15,6 @@ describe('Express App', () => {
   it('responds with JSON for GET /api/hello', async () => {
     const response = await request(app).get('/api/hello');
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({message: 'Hello from Express Lambda!'});
+    expect(response.body).toEqual({ message: 'Hello from Express Lambda!' });
   });
 });

@@ -1,4 +1,4 @@
-import {Context, APIGatewayEvent} from 'aws-lambda';
+import { Context, APIGatewayEvent } from 'aws-lambda';
 import awsServerlessExpress from 'aws-serverless-express';
 import app from './app';
 
