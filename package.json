@@ -10,10 +10,7 @@
     "test": "jest --detectOpenHandles",
     "coverage": "jest --coverage",
     "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix",
-    "prettier": "npx prettier src tst --check",
-    "prettier:fix": "npm run prettier -- --write",
-    "format": "npm run prettier:fix && npm run lint:fix"
+    "format": "npm run lint -- --fix"
   },
   "keywords": [],
   "author": "",
