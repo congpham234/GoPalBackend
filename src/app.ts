@@ -1,21 +1,26 @@
-import express from 'express';
+import express, { Express } from 'express';
+import { Server } from 'http';
+import routes from './routes';
 
-const app = express();
+const app: Express = express();
+let server: Server | null = null;
 
 if (process.env.ENVIRONMENT !== "lambda") {
-  let port = process.env.PORT || 3000;
+  let port: number = Number(process.env.PORT) || 3000;
 
-  app.listen(port, () => {
+  server = app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
   });
 }
 
-app.get("/", (req, res) => {
-  res.send("App running 👍");
-});
+app.use('/', routes);
 
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello from Express Lambda!' });
-});
+export const closeServer = () => {
+  if (server) {
+    server.close();
+  } else {
+    console.log('Server is not running');
+  }
+};
 
 export default app;
