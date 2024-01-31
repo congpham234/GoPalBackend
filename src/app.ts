@@ -3,6 +3,7 @@ import { Server } from 'http';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import createRouter from './routes/router';
+import getDeliveryDoc from './apis/v1/get-delivery-doc';
 
 const app: Express = express();
 let server: Server | null = null;
@@ -16,6 +17,9 @@ const options: swaggerJsdoc.Options = {
       description: 'API Description for Delivery Service',
     },
     servers: [{ url: 'http://localhost:3000' }],
+    paths: {
+      '/delivery': getDeliveryDoc
+    }
   },
   apis: [
     './src/routes/**/*.ts',
