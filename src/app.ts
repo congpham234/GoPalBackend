@@ -18,8 +18,8 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [{ url: 'http://localhost:3000' }],
     paths: {
-      '/delivery': getDeliveryDoc
-    }
+      '/delivery': getDeliveryDoc,
+    },
   },
   apis: [
     './src/routes/**/*.ts',

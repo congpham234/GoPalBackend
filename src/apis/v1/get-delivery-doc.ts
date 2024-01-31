@@ -2,10 +2,10 @@ const getDeliveryDoc = {
   get: {
     responses: {
       '200': {
-        description: 'It works'
-      }
-    }
-  }
+        description: 'It works',
+      },
+    },
+  },
 };
 
 export default getDeliveryDoc;
