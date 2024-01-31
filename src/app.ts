@@ -17,7 +17,7 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [{ url: 'http://localhost:3000' }],
   },
-  apis: ['./src/routes/*.ts'], // paths to the API docs
+  apis: ['./src/routes/*.ts', './src/docs/*.ts'], // paths to the API docs
 };
 
 const swaggerSpec = swaggerJsdoc(options);
