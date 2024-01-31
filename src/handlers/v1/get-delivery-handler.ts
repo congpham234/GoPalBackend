@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
+import mockDeliveries from '../../mocks/mock-deliveries';
 
 const getDeliveryHandler = (req: Request, res: Response): void => {
-  // Your logic for handling the delivery route
-  res.send('App running');
+  // TODO: add Request and Response Validation
+  res.json(mockDeliveries);
 };
 
 export default getDeliveryHandler;

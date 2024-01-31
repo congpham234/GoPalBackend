@@ -1,7 +1,7 @@
 import { Delivery, DeliveryStatus } from '../models/delivery';
 
 // Example usage:
-export const sampleDelivery: Delivery = {
+const mockDeliveries: Delivery = {
   OrderId: 'order123',
   DeliveryId: 'delivery789',
   DriverId: 'driverXYZ',
@@ -12,3 +12,5 @@ export const sampleDelivery: Delivery = {
   DeliveryNotes: 'Leave at the doorstep',
   ProofOfDelivery: 'ProofOfDelivery',
 };
+
+export default mockDeliveries;

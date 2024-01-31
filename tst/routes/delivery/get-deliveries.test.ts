@@ -23,7 +23,7 @@ describe('getDeliveries route', () => {
     router(
       {
         method: 'GET',
-        url: '/delivery',
+        url: '/v1/delivery',
       } as Request,
       mockResponse,
       (() => {

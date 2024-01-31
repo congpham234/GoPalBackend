@@ -3,7 +3,14 @@ const getDeliveryDoc = {
   get: {
     responses: {
       '200': {
-        description: 'It works',
+        description: 'Successful response',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Delivery',
+            },
+          },
+        },
       },
     },
   },
