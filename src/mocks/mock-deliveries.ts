@@ -1,22 +1,4 @@
-// Define the DeliveryStatus enum
-enum DeliveryStatus {
-    OutForDelivery = 'Out for Delivery',
-    Delivered = 'Delivered',
-    Exception = 'Exception',
-}
-
-// Define the Deliveries table model
-interface Delivery {
-    OrderId: string;
-    DeliveryId: string;
-    DriverId: string;
-    DeliveryDate: Date;
-    DeliveryStatus: DeliveryStatus;
-    RecipientName: string;
-    RecipientAddress: string;
-    DeliveryNotes: string;
-    ProofOfDelivery?: string;
-}
+import { Delivery, DeliveryStatus } from '../models/delivery';
 
 // Example usage:
 export const sampleDelivery: Delivery = {
