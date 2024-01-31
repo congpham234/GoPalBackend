@@ -6,15 +6,9 @@ describe('Express App', () => {
     closeServer();
   });
 
-  it('responds with "App running 👍" for GET /', async () => {
-    const response = await request(app).get('/');
+  it('responds with "App running" for GET /delivery', async () => {
+    const response = await request(app).get('/delivery');
     expect(response.status).toBe(200);
-    expect(response.text).toBe('App running 👍');
-  });
-
-  it('responds with JSON for GET /api/hello', async () => {
-    const response = await request(app).get('/api/hello');
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual({ message: 'Hello from Express Lambda!' });
+    expect(response.text).toBe('App running');
   });
 });
