@@ -1,8 +1,8 @@
 import express, { Express } from 'express';
 import { Server } from 'http';
-import routes from './routes/delivery';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import createRouter from './routes/router';
 
 const app: Express = express();
 let server: Server | null = null;
@@ -11,13 +11,16 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Your mom',
+      title: 'Delivery Service',
       version: '1.0.0',
-      description: 'Your API description',
+      description: 'API Description for Delivery Service',
     },
     servers: [{ url: 'http://localhost:3000' }],
   },
-  apis: ['./src/routes/*.ts', './src/docs/*.ts'], // paths to the API docs
+  apis: [
+    './src/routes/**/*.ts',
+    './src/apis/**/*.ts',
+  ],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
@@ -32,7 +35,7 @@ if (process.env.ENVIRONMENT !== 'lambda') {
   });
 }
 
-app.use('/', routes);
+app.use('/', createRouter());
 
 export const closeServer = () => {
   if (server) {

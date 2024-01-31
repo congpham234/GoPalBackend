@@ -1,5 +1,5 @@
 /**
- *  @swagger
+ *  @openapi
  *  /delivery:
  *   get:
  *    responses:

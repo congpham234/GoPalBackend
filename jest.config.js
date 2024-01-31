@@ -9,6 +9,7 @@ module.exports = {
     '!**/node_modules/**',
     '!**/vendor/**',
     '!**/app.ts',
+    '!**/src/mocks/**',
   ],
   coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}]],
   coverageThreshold: {
