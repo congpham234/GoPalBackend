@@ -21,14 +21,14 @@ describe('getDeliveries route', () => {
     // This is to simulate the request after the router for
     // getDelivereies is setup
     router(
-            {
-              method: 'GET',
-              url: '/delivery',
-            } as Request,
-            mockResponse,
-            (() => {
-              return 'test';
-            }) as NextFunction,
+      {
+        method: 'GET',
+        url: '/delivery',
+      } as Request,
+      mockResponse,
+      (() => {
+        return 'test';
+      }) as NextFunction,
     );
 
     // Assert

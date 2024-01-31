@@ -19,7 +19,8 @@
       "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "check-file"
     ],
     "overrides": [
       {
@@ -28,12 +29,23 @@
           // Add your TypeScript-specific rules here
           // ...
           "object-curly-spacing": ["error", "always"],
-          "indent": ["error", 2]
+          "indent": ["error", 2],
+          "new-cap": 0,
+          "check-file/no-index": "error",
+          "check-file/filename-naming-convention": [
+            "error",
+            { "**/*.{js,ts}": "KEBAB_CASE" },
+            { "ignoreMiddleExtensions": true }
+          ],
+          "check-file/folder-naming-convention": [
+            "error",
+            {
+              "src/**/": "CAMEL_CASE"
+            }
+          ]
         }
       }
     ],
-    "rules": {
-        "new-cap": 0
-    }
+    "rules": {}
   }
   
