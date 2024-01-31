@@ -1,3 +1,4 @@
+/** for /delivery GET route */
 const getDeliveryDoc = {
   get: {
     responses: {

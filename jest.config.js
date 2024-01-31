@@ -12,6 +12,7 @@ module.exports = {
     '!**/src/mocks/**',
     '!**/src/models/**',
     '!**/routes/router.ts',
+    '!**/apis/**',
   ],
   coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}]],
   coverageThreshold: {
