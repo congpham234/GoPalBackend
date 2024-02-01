@@ -8,7 +8,7 @@ const deliverySchema = {
     DeliveryStatus: { $ref: '#/components/enums/DeliveryStatus' },
     RecipientName: { type: 'string' },
     RecipientAddress: { type: 'string' },
-    DeliveryNotes: { type: 'string' },
+    DeliveryInstructions: { $ref: '#/components/enums/DeliveryInstructions' },
     ProofOfDelivery: { type: 'string' },
   },
 };
