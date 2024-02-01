@@ -5,7 +5,7 @@ import deliverySchema from './schemas/delivery-schema';
 const components = {
   enums: {
     DeliveryStatus: deliveryStatusEnum,
-    DeliveryInstructions: deliveryInstructionsEnum
+    DeliveryInstructions: deliveryInstructionsEnum,
   },
   schemas: {
     Delivery: deliverySchema,
