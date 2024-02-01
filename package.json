@@ -11,7 +11,9 @@
     "coverage": "jest --coverage",
     "lint": "eslint .",
     "format": "npm run lint -- --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "start": "nodemon",
+    "generate": "openapi --input ./spec.json --output ./generated"
   },
   "keywords": [],
   "author": "",
@@ -41,6 +43,7 @@
     "husky": "^9.0.6",
     "jest": "^29.7.0",
     "nodemon": "^3.0.3",
+    "openapi-typescript-codegen": "^0.27.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

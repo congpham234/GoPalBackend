@@ -1,6 +1,11 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import getDeliveryDoc from './v1/get-delivery-doc';
 import components from './components';
+import updateDeliveryDoc from './v1/update-delivery-doc';
+
+const deliveryPath = {
+  get: getDeliveryDoc, post: updateDeliveryDoc,
+};
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -12,7 +17,7 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [{ url: 'http://localhost:3000' }],
     paths: {
-      '/v1/delivery': getDeliveryDoc,
+      '/v1/delivery': deliveryPath,
     },
     components: components,
   },
@@ -23,5 +28,7 @@ const options: swaggerJSDoc.Options = {
 };
 
 const swaggerOptions = swaggerJSDoc(options);
+
+console.log(JSON.stringify(swaggerOptions));
 
 export default swaggerOptions;
