@@ -30,7 +30,7 @@ jobs:
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         status: ${{ job.status }}
-        title: "deploy"
+        title: "Deploy Delivery Service"
         description: "Build and deploy Delivery Service"
         image: ${{ secrets.EMBED_IMAGE }}
         color: 0x0000ff
