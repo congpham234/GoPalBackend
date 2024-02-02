@@ -1,18 +1,40 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Discord Notification
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build and deploy
+      run: npm run build
+
+    - name: Send Discord notification
+      uses: sarisia/actions-status-discord@v1
+      if: always()
+      with:
+        webhook: ${{ https://discordapp.com/api/webhooks/1202886546118934558/ycI3E1rv2A_cxUrzIRU68ez2J5gYJiklp0TwA9ZBWq5-d08rIiPFWxegZSvqgwsUOIgK }}
+        status: ${{ job.status }}
+        content: "Hey <@316911818725392384>"
+        title: "deploy"
+        description: "Build and deploy Delivery Service"
+        image: ${{ https://github.com/congpham234/Miscellaneous-Stuff/blob/master/Screen%20Shot%202024-02-02%20at%2012.10.58%20AM.png }}
+        color: 0x0000ff
+        url: "https://github.com/congpham234/DeliveryService"
+        username: GitHub Actions
+        avatar_url: ${{ https://github.com/congpham234/Miscellaneous-Stuff/blob/master/Screen%20Shot%202024-02-02%20at%2012.10.58%20AM.png }}
