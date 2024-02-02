@@ -1,17 +1,24 @@
-Test README
-
 ### How to run locally:
 
-Make sure you have `nodemon` is installed locally by typing
-https://github.com/remy/nodemon#nodemon
+Step 1: Build the project
 ```
-npm install -g nodemon
+npm run build
 ``` 
 
-Then start the server with
+Step 2: Then start the server with
 
 ```
-nodemon
+npm run start
 ```
 
 The server should be served at port 3000 by default
+
+
+--------------------
+### How to run on AWS lambda:
+Step 1: Build the project
+```
+npm run build
+```
+
+Step 2: Import the `index.zip` file in `dist` folder to AWS lambda
