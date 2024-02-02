@@ -3,11 +3,16 @@ import { Server } from 'http';
 import swaggerUi from 'swagger-ui-express';
 import createRouter from './routes/router';
 import swaggerOptions from './apis/swagger-options';
+import { openApiValidator } from './middlewares/validator';
+import errorHandler from './middlewares/error';
 
 const app: Express = express();
 let server: Server | null = null;
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOptions));
+
+app.use(errorHandler);
+app.use(openApiValidator);
 
 if (process.env.ENVIRONMENT !== 'lambda') {
   const port: number = Number(process.env.PORT) || 3000;

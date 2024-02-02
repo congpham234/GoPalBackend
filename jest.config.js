@@ -14,6 +14,7 @@ module.exports = {
     '!**/routes/router.ts',
     '!**/apis/**',
     '!**/generated/**',
+    '!**/middlewares/**',
   ],
   coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}]],
   coverageThreshold: {

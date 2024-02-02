@@ -9,7 +9,7 @@ const mockDeliveries: Delivery = {
   OrderId: 'order123',
   DeliveryId: 'delivery789',
   DriverId: 'driverXYZ',
-  DeliveryDate: 'delivery date',
+  DeliveryDate: '2018-03-20T09:12:28Z',
   DeliveryStatus: DeliveryStatus.DELIVERED,
   RecipientName: 'John Doe',
   RecipientAddress: '123 Main St, Cityville',

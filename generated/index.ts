@@ -9,5 +9,6 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 export type { Delivery } from './models/Delivery';
 export { DeliveryInstructions } from './models/DeliveryInstructions';
 export { DeliveryStatus } from './models/DeliveryStatus';
+export type { ErrorModel } from './models/ErrorModel';
 
 export { DefaultService } from './services/DefaultService';
