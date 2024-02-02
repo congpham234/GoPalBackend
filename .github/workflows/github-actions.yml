@@ -1,4 +1,4 @@
-name: Discord Notification
+name: Delivery Service CI/CD
 
 on:
   push:
@@ -28,13 +28,12 @@ jobs:
       uses: sarisia/actions-status-discord@v1
       if: always()
       with:
-        webhook: ${{ https://discordapp.com/api/webhooks/1202886546118934558/ycI3E1rv2A_cxUrzIRU68ez2J5gYJiklp0TwA9ZBWq5-d08rIiPFWxegZSvqgwsUOIgK }}
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
         status: ${{ job.status }}
-        content: "Hey <@316911818725392384>"
         title: "deploy"
         description: "Build and deploy Delivery Service"
-        image: ${{ https://github.com/congpham234/Miscellaneous-Stuff/blob/master/Screen%20Shot%202024-02-02%20at%2012.10.58%20AM.png }}
+        image: ${{ secrets.EMBED_IMAGE }}
         color: 0x0000ff
         url: "https://github.com/congpham234/DeliveryService"
         username: GitHub Actions
-        avatar_url: ${{ https://github.com/congpham234/Miscellaneous-Stuff/blob/master/Screen%20Shot%202024-02-02%20at%2012.10.58%20AM.png }}
+        avatar_url: ${{ secrets.AVATAR_URL }}
