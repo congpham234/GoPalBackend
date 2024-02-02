@@ -35,5 +35,5 @@ jobs:
         image: ${{ secrets.EMBED_IMAGE }}
         color: 0x6AA84F
         url: "https://github.com/congpham234/DeliveryService"
-        username: GitHub Actions
+        username: Your Mom
         avatar_url: ${{ secrets.AVATAR_URL }}
