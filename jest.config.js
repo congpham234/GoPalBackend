@@ -13,6 +13,7 @@ module.exports = {
     '!**/src/models/**',
     '!**/routes/router.ts',
     '!**/apis/**',
+    '!**/generated/**',
   ],
   coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}]],
   coverageThreshold: {

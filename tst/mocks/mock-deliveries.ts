@@ -1,15 +1,19 @@
-import { Delivery, DeliveryStatus } from '../models/delivery';
+import {
+  Delivery,
+  DeliveryInstructions,
+  DeliveryStatus,
+} from '../../generated';
 
 // Example usage:
 const mockDeliveries: Delivery = {
   OrderId: 'order123',
   DeliveryId: 'delivery789',
   DriverId: 'driverXYZ',
-  DeliveryDate: new Date(),
-  DeliveryStatus: DeliveryStatus.OutForDelivery,
+  DeliveryDate: 'delivery date',
+  DeliveryStatus: DeliveryStatus.DELIVERED,
   RecipientName: 'John Doe',
   RecipientAddress: '123 Main St, Cityville',
-  DeliveryNotes: 'Leave at the doorstep',
+  DeliveryInstructions: DeliveryInstructions.LEAVE_AT_BACK_DOOR,
   ProofOfDelivery: 'ProofOfDelivery',
 };
 

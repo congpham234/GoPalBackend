@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import mockDeliveries from '../../../src/mocks/mock-deliveries';
+import mockDeliveries from '../../mocks/mock-deliveries';
 import getDeliveryHandler from '../../../src/handlers/v1/get-delivery-handler';
 
 describe('getDeliveryHandler', () => {
