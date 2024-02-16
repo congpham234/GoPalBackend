@@ -8,9 +8,15 @@ on:
     types: [trigger-workflow]
 
 jobs:
+  dummy-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dummy Step
+        run: echo "This is a dummy step"
+
   trigger-cdk-repo-workflow:
     runs-on: ubuntu-latest
-    needs: build
+    needs: dummy-job
     steps:
       - name: Trigger workflow in CDK repository
         run: |
