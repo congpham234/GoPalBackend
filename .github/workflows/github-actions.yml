@@ -27,6 +27,9 @@ jobs:
     - name: Build Docker Image
       run: docker build --platform linux/amd64 -t delivery-service:latest .
 
+    - name: Login to AWS ECR Docker
+      run: aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 730335480908.dkr.ecr.us-west-2.amazonaws.com/delivery-service-ecr-repo
+
     - name: Tag Docker Image with Latest
       run: docker tag delivery-service:latest 730335480908.dkr.ecr.us-west-2.amazonaws.com/delivery-service-ecr-repo:latest
 
