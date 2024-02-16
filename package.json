@@ -6,7 +6,6 @@
   "scripts": {
     "prebuild": "npm run generate && npm run format && npm run lint && npm run coverage && rm -rf dist",
     "build": "esbuild src/lambda-handler.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
-    "postbuild": "cd dist && cp ../openapi-spec.json . && zip -r index.zip .",
     "test": "jest --detectOpenHandles",
     "coverage": "jest --coverage",
     "lint": "eslint .",
