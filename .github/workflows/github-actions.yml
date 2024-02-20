@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: delivery-service-deployment-group
+  cancel-in-progress: false
+
 jobs:
   dummy-job:
     runs-on: ubuntu-latest
