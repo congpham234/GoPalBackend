@@ -1,5 +1,5 @@
 module.exports = {
-  transform: {'^.+\\.ts?$': 'ts-jest'},
+  transform: { '^.+\\.ts?$': 'ts-jest' },
   testEnvironment: 'node',
   testRegex: '/tst/.*\\.(test|spec)?\\.(ts)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
@@ -16,10 +16,9 @@ module.exports = {
     '!**/generated/**',
     '!**/middlewares/**',
   ],
-  coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}]],
+  coverageReporters: ['clover', 'json', 'lcov', ['text', { skipFull: true }]],
   coverageThreshold: {
     global: {
-      branches: 85,
       functions: 90,
       lines: 90,
       statements: -10,

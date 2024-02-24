@@ -1,8 +1,13 @@
+import 'reflect-metadata';
 import { Router, Request, Response, NextFunction } from 'express';
 import getDeliveries from '../../../src/routes/delivery/get-deliveries';
-import getDeliveryHandler from '../../../src/handlers/v1/get-delivery-handler';
+import { GetDeliveryHandler } from '../../../src/handlers/v1/get-delivery-handler';
 
-jest.mock('../../../src/handlers/v1/get-delivery-handler', () => jest.fn());
+const mockGetDeliveryHandler = jest
+  .spyOn(GetDeliveryHandler.prototype, 'getDelivery')
+  .mockImplementationOnce(() => {
+    return {};
+  });
 
 describe('getDeliveries route', () => {
   it('should call getDeliveryHandler when /delivery is requested', async () => {
@@ -32,6 +37,6 @@ describe('getDeliveries route', () => {
     );
 
     // Assert
-    expect(getDeliveryHandler).toHaveBeenCalled();
+    expect(mockGetDeliveryHandler).toHaveBeenCalled();
   });
 });

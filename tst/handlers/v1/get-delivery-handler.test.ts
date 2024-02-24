@@ -1,19 +1,22 @@
+import { GetDeliveryHandler } from '../../../src/handlers/v1/get-delivery-handler';
+import mockDeliveries from '../../../tst/mocks/mock-deliveries';
 import { Request, Response } from 'express';
-import mockDeliveries from '../../mocks/mock-deliveries';
-import getDeliveryHandler from '../../../src/handlers/v1/get-delivery-handler';
 
-describe('getDeliveryHandler', () => {
-  it('should respond with mock deliveries', () => {
-    // Mock Express request and response objects
-    const req = {} as Request;
-    const res = {
+describe('GetDeliveryHandler', () => {
+  let handler: GetDeliveryHandler;
+  let mockRequest: Partial<Request>;
+  let mockResponse: Partial<Response>;
+
+  beforeEach(() => {
+    handler = new GetDeliveryHandler();
+    mockRequest = {}; // We'll leave this empty for now
+    mockResponse = {
       json: jest.fn(),
-    } as unknown as Response;
+    };
+  });
 
-    // Call the handler
-    getDeliveryHandler(req, res);
-
-    // Check if res.json is called with the mock deliveries
-    expect(res.json).toHaveBeenCalledWith(mockDeliveries);
+  it('should respond with mock deliveries', () => {
+    handler.getDelivery(mockRequest as Request, mockResponse as Response);
+    expect(mockResponse.json).toHaveBeenCalledWith(mockDeliveries);
   });
 });

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express, { Express } from 'express';
 import { Server } from 'http';
 import swaggerUi from 'swagger-ui-express';
