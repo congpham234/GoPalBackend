@@ -1,6 +1,6 @@
 const deliveryStatusEnum = {
   type: 'string',
-  enum: ['OutForDelivery', 'Delivered', 'Exception'],
+  enum: ['IN_TRANSIT', 'DELIVERED', 'PENDING'],
 };
 
 export default deliveryStatusEnum;

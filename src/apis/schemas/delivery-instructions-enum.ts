@@ -1,6 +1,6 @@
 const deliveryInstructionsEnum = {
   type: 'string',
-  enum: ['LeaveAtFrontDoor', 'LeaveAtBackDoor', 'Other'],
+  enum: ['LEAVE_AT_FRONT_DOOR', 'LEAVE_AT_BACK_DOOR', 'OTHER'],
 };
 
 export default deliveryInstructionsEnum;

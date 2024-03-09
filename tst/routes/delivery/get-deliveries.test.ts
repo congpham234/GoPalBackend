@@ -5,8 +5,8 @@ import { GetDeliveryHandler } from '../../../src/handlers/v1/get-delivery-handle
 
 const mockGetDeliveryHandler = jest
   .spyOn(GetDeliveryHandler.prototype, 'getDelivery')
-  .mockImplementationOnce(() => {
-    return {};
+  .mockImplementationOnce(async () => {
+    return Promise.resolve();
   });
 
 describe('getDeliveries route', () => {

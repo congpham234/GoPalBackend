@@ -1,8 +1,5 @@
-import {
-  Delivery,
-  DeliveryInstructions,
-  DeliveryStatus,
-} from '../../generated';
+import { Delivery, DeliveryInstructions, DeliveryStatus } from '../../src/daos/models/delivery';
+
 
 // Example usage:
 const mockDeliveries: Delivery = {
