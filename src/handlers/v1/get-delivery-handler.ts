@@ -24,6 +24,7 @@ export class GetDeliveryHandler {
       if (err instanceof DeliveryNotFoundException) {
         res.status(404).json({ error: err.message });
       } else {
+        console.log(err);
         res.status(500).json({ error: 'Internal Server Error' });
       }
     }
