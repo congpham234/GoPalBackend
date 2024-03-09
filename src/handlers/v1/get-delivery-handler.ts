@@ -1,15 +1,19 @@
 import { Request, Response } from 'express';
-import { Container, Service } from 'typedi';
+import { Service } from 'typedi';
 import { GetDeliveriesDao } from '../../daos/get-deliveries-dao';
 import { DeliveryNotFoundException } from '../../exceptions/delivery-not-found-exception';
 
-const deliveriesDao = Container.get(GetDeliveriesDao);
-
 @Service()
 export class GetDeliveryHandler {
+  private readonly deliveriesDao: GetDeliveriesDao;
+
+  constructor(deliveriesDao: GetDeliveriesDao) {
+    this.deliveriesDao = deliveriesDao;
+  }
+
   public async getDelivery(req: Request, res: Response): Promise<void> {
     try {
-      const delivery = await deliveriesDao.getDeliveryById('delivery789', 'order123');
+      const delivery = await this.deliveriesDao.getDeliveryById('delivery789', 'order123');
       if (delivery) {
         res.json(delivery);
       } else {

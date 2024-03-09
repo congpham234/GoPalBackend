@@ -18,7 +18,7 @@ describe('GetDeliveryHandler', () => {
   let mockResponse: Partial<Response>;
 
   beforeEach(() => {
-    handler = new GetDeliveryHandler();
+    handler = new GetDeliveryHandler(new GetDeliveriesDao());
     mockRequest = {}; // We'll leave this empty for now
     mockResponse = {
       json: jest.fn(),
