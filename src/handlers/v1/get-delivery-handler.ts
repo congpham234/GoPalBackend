@@ -12,21 +12,11 @@ export class GetDeliveryHandler {
   }
 
   public async getDelivery(req: Request, res: Response): Promise<void> {
-    try {
-      const delivery = await this.deliveriesDao.getDeliveryById('delivery789', 'order123');
-      if (delivery) {
-        res.json(delivery);
-      } else {
-        throw new DeliveryNotFoundException('Delivery not found');
-      }
-    } catch (err) {
-      // TODO: Move these into exception handler class
-      if (err instanceof DeliveryNotFoundException) {
-        res.status(404).json({ error: err.message });
-      } else {
-        console.log(err);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
+    const delivery = await this.deliveriesDao.getDeliveryById('delivery789', 'order123');
+    if (delivery) {
+      res.json(delivery);
+    } else {
+      throw new DeliveryNotFoundException('Delivery not found');
     }
   }
 }

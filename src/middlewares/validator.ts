@@ -1,6 +1,6 @@
-import * as OpenApiValidator from 'express-openapi-validator';
+import { middleware } from 'express-openapi-validator';
 
-export const openApiValidator = OpenApiValidator.middleware({
+export const openApiValidator = middleware({
   apiSpec: './openapi-spec.json',
   validateRequests: true,
   validateResponses: true,

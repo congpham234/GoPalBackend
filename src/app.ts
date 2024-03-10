@@ -5,7 +5,7 @@ import { Server } from 'http';
 import swaggerUi from 'swagger-ui-express';
 import createRouter from './routes/router';
 import { openApiValidator } from './middlewares/validator';
-import errorHandler from './middlewares/error';
+import errorHandler from './middlewares/error-handler';
 import { readFileSync } from 'fs';
 
 const app: Express = express();
