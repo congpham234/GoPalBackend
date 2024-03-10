@@ -1,13 +1,13 @@
 export class Delivery {
-  OrderId?: string;
-  DeliveryId?: string;
-  DriverId?: string;
-  DeliveryDate?: string;
-  DeliveryStatus?: DeliveryStatus;
-  RecipientName?: string;
-  RecipientAddress?: string;
-  DeliveryInstructions?: DeliveryInstructions;
-  ProofOfDelivery?: string;
+  orderId?: string;
+  deliveryId?: string;
+  driverId?: string;
+  deliveryDate?: string;
+  deliveryStatus?: DeliveryStatus;
+  recipientName?: string;
+  recipientAddress?: string;
+  deliveryInstructions?: DeliveryInstructions;
+  proofOfDelivery?: string;
 }
 
 export enum DeliveryStatus {
