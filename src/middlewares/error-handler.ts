@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { DeliveryNotFoundException } from '../exceptions/delivery-not-found-exception';
 
 /* eslint-disable */
 const errorHandler = (
@@ -8,14 +7,11 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err); // dump error to console for debug
-  if (err instanceof DeliveryNotFoundException) {
-    // TODO: Add DeliveryNotFoundException in the API model
-    res.status(404).json({ error: err.message });
-  } else {
-    console.log(err);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+  // dump error to console for debug
+  console.error(err);
+  res
+    .status(err.status || 500)
+    .send({ message: err.message || 'Internal Server Error' });
 };
 
 export default errorHandler;

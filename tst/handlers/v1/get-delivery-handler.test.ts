@@ -3,7 +3,7 @@ import { GetDeliveriesDao } from '../../../src/daos/get-deliveries-dao';
 import { GetDeliveryHandler } from '../../../src/handlers/v1/get-delivery-handler';
 import mockDeliveries from '../../../tst/mocks/mock-deliveries';
 import { Request, Response } from 'express';
-import { DeliveryNotFoundException } from '../../../src/exceptions/delivery-not-found-exception';
+import { DeliveryNotFoundError } from '../../../src/exceptions/delivery-not-found-error';
 
 describe('GetDeliveryHandler', () => {
   let mockDeliveriesDao: jest.Mocked<GetDeliveriesDao>;
@@ -37,7 +37,7 @@ describe('GetDeliveryHandler', () => {
     mockDeliveriesDao.getDeliveryById.mockResolvedValue(null);
 
     await expect(getDeliveryHandler.getDelivery(mockRequest as Request, mockResponse as Response))
-      .rejects.toThrow(DeliveryNotFoundException);
+      .rejects.toThrow(DeliveryNotFoundError);
 
     expect(mockDeliveriesDao.getDeliveryById).toHaveBeenCalledWith('delivery789', 'order123');
     expect(mockResponse.json).not.toHaveBeenCalled();

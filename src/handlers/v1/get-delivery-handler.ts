@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { GetDeliveriesDao } from '../../daos/get-deliveries-dao';
-import { DeliveryNotFoundException } from '../../exceptions/delivery-not-found-exception';
+import { DeliveryNotFoundError } from '../../exceptions/delivery-not-found-error';
 import { inject, singleton } from 'tsyringe';
 
 @singleton()
@@ -16,7 +16,7 @@ export class GetDeliveryHandler {
     if (delivery) {
       res.json(delivery);
     } else {
-      throw new DeliveryNotFoundException('Delivery not found');
+      throw new DeliveryNotFoundError('Delivery not found');
     }
   }
 }
