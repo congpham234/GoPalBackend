@@ -5,9 +5,7 @@ import { DeliveryNotFoundException } from '../../exceptions/delivery-not-found-e
 
 @Service()
 export class GetDeliveryHandler {
-  private readonly deliveriesDao: GetDeliveriesDao;
-
-  constructor(deliveriesDao: GetDeliveriesDao) {
+  constructor(private readonly deliveriesDao: GetDeliveriesDao) {
     this.deliveriesDao = deliveriesDao;
   }
 
