@@ -3,31 +3,43 @@ import { GetDeliveriesDao } from '../../../src/daos/get-deliveries-dao';
 import { GetDeliveryHandler } from '../../../src/handlers/v1/get-delivery-handler';
 import mockDeliveries from '../../../tst/mocks/mock-deliveries';
 import { Request, Response } from 'express';
-
-const mockDeliveriesDao = jest
-  .spyOn(GetDeliveriesDao.prototype, 'getDeliveryById')
-  .mockImplementationOnce(async () => {
-    // You can return null here if needed, assuming mockDeliveries is of type Delivery
-    return Promise.resolve(mockDeliveries);
-  });
-
+import { DeliveryNotFoundException } from '../../../src/exceptions/delivery-not-found-exception';
 
 describe('GetDeliveryHandler', () => {
-  let handler: GetDeliveryHandler;
+  let mockDeliveriesDao: jest.Mocked<GetDeliveriesDao>;
+  let getDeliveryHandler: GetDeliveryHandler;
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;
 
   beforeEach(() => {
-    handler = new GetDeliveryHandler(new GetDeliveriesDao());
-    mockRequest = {}; // We'll leave this empty for now
+    mockDeliveriesDao = {
+      getDeliveryById: jest.fn(),
+    } as unknown as jest.Mocked<GetDeliveriesDao>;
+
+    getDeliveryHandler = new GetDeliveryHandler(mockDeliveriesDao);
+
+    mockRequest = {};
     mockResponse = {
       json: jest.fn(),
     };
   });
 
-  it('should respond with mock deliveries', async () => {
-    await handler.getDelivery(mockRequest as Request, mockResponse as Response);
+  it('should return the delivery when found', async () => {
+    mockDeliveriesDao.getDeliveryById.mockResolvedValue(mockDeliveries);
+
+    await getDeliveryHandler.getDelivery(mockRequest as Request, mockResponse as Response);
+
+    expect(mockDeliveriesDao.getDeliveryById).toHaveBeenCalledWith('delivery789', 'order123');
     expect(mockResponse.json).toHaveBeenCalledWith(mockDeliveries);
-    expect(mockDeliveriesDao).toHaveBeenCalled();
+  });
+
+  it('should throw DeliveryNotFoundException when delivery not found', async () => {
+    mockDeliveriesDao.getDeliveryById.mockResolvedValue(null);
+
+    await expect(getDeliveryHandler.getDelivery(mockRequest as Request, mockResponse as Response))
+      .rejects.toThrow(DeliveryNotFoundException);
+
+    expect(mockDeliveriesDao.getDeliveryById).toHaveBeenCalledWith('delivery789', 'order123');
+    expect(mockResponse.json).not.toHaveBeenCalled();
   });
 });
