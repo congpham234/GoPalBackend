@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { GetDeliveriesDao } from '../../daos/get-deliveries-dao';
 import { DeliveryNotFoundException } from '../../exceptions/delivery-not-found-exception';
-import { singleton } from 'tsyringe';
+import { inject, singleton } from 'tsyringe';
 
 @singleton()
 export class GetDeliveryHandler {
   private readonly deliveriesDao: GetDeliveriesDao;
 
-  constructor(deliveriesDao: GetDeliveriesDao) {
+  constructor(@inject(GetDeliveriesDao) deliveriesDao: GetDeliveriesDao) {
     this.deliveriesDao = deliveriesDao;
   }
 
