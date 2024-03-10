@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { GetDeliveriesDao } from '../../src/daos/get-deliveries-dao';
 import { ddbClient } from '../../src/middlewares/dynamodb-connection';

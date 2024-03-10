@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
-import { Service } from 'typedi';
 import { GetDeliveriesDao } from '../../daos/get-deliveries-dao';
 import { DeliveryNotFoundException } from '../../exceptions/delivery-not-found-exception';
+import { singleton } from 'tsyringe';
 
-@Service()
+@singleton()
 export class GetDeliveryHandler {
-  constructor(private readonly deliveriesDao: GetDeliveriesDao) {
+  private readonly deliveriesDao: GetDeliveriesDao;
+
+  constructor(deliveriesDao: GetDeliveriesDao) {
     this.deliveriesDao = deliveriesDao;
   }
 

@@ -1,10 +1,10 @@
 import { GetItemCommand } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { Delivery } from './models/delivery';
-import { Service } from 'typedi';
 import { ddbClient } from '../middlewares/dynamodb-connection';
+import { singleton } from 'tsyringe';
 
-@Service()
+@singleton()
 export class GetDeliveriesDao {
   public async getDeliveryById(deliveryId: string, orderId: string): Promise<Delivery | null> {
     // Create a command to get item
