@@ -11,8 +11,8 @@ export class GetDeliveriesDao {
     const getItemCommand = new GetItemCommand({
       TableName: 'Deliveries',
       Key: marshall({
-        DeliveryId: deliveryId,
-        OrderId: orderId,
+        deliveryId: deliveryId,
+        orderId: orderId,
       }), // Marshal the key
     });
 
