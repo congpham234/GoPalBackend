@@ -9,9 +9,15 @@ const getDeliveries = (router: Router): void => {
   // https://expressjs.com/en/guide/error-handling.html
   // eslint-disable-next-line
   router.get('/v1/delivery', async (req, res, next) => {
-    const deliveryId = req.query.deliveryId?.toString() ?? '';
-    const delivery = await deliveryHandlerInstance.getDelivery(deliveryId);
-    res.send(delivery);
+    try {
+      const deliveryId = req.query.deliveryId?.toString() ?? '';
+      const delivery = await deliveryHandlerInstance.getDelivery(deliveryId);
+      res.send(delivery);
+    } catch (error) {
+      // If an error occurs during the execution of the handler,
+      // pass it to the next middleware in the chain (error handler)
+      next(error);
+    }
   });
 };
 
