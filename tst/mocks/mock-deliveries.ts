@@ -2,7 +2,7 @@ import { Delivery, DeliveryInstructions, DeliveryStatus } from '../../src/daos/m
 
 
 // Example usage:
-const mockDeliveries: Delivery = {
+const mockDelivery: Delivery = {
   deliveryId: 'delivery789',
   driverId: 'driverXYZ',
   deliveryDate: '2018-03-20T09:12:28Z',
@@ -13,4 +13,4 @@ const mockDeliveries: Delivery = {
   proofOfDelivery: 'ProofOfDelivery',
 };
 
-export default mockDeliveries;
+export default mockDelivery;

@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
 import { GetDeliveriesDao } from '../../daos/get-deliveries-dao';
 import { DeliveryNotFoundError } from '../../exceptions/delivery-not-found-error';
 import { inject, singleton } from 'tsyringe';
+import { Delivery } from '../../../generated';
 
 @singleton()
 export class GetDeliveryHandler {
@@ -11,12 +11,10 @@ export class GetDeliveryHandler {
     this.deliveriesDao = deliveriesDao;
   }
 
-  public async getDelivery(req: Request, res: Response): Promise<void> {
-    const deliveryId = req.query.deliveryId?.toString() ?? '';
-
+  public async getDelivery(deliveryId: string): Promise<Delivery> {
     const delivery = await this.deliveriesDao.getDeliveryById(deliveryId);
     if (delivery) {
-      res.json(delivery);
+      return delivery;
     } else {
       throw new DeliveryNotFoundError('Delivery not found');
     }
