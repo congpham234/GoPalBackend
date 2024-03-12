@@ -36,9 +36,8 @@ describe('DeliveriesDao', () => {
 
 
       const deliveryId = '1';
-      const orderId = '123';
 
-      const result = await deliveriesDao.getDeliveryById(deliveryId, orderId);
+      const result = await deliveriesDao.getDeliveryById(deliveryId);
 
       expect(result).toBeNull();
       expect(ddbClient.send).toHaveBeenCalledTimes(1);
@@ -52,9 +51,8 @@ describe('DeliveriesDao', () => {
       (unmarshall as jest.Mock).mockImplementation((input) => input);
 
       const deliveryId = '1';
-      const orderId = '123';
 
-      const result = await deliveriesDao.getDeliveryById(deliveryId, orderId);
+      const result = await deliveriesDao.getDeliveryById(deliveryId);
 
       expect(result).toEqual(mockItem);
       expect(ddbClient.send).toHaveBeenCalledTimes(1);

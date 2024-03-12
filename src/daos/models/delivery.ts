@@ -1,5 +1,4 @@
 export class Delivery {
-  orderId?: string;
   deliveryId?: string;
   driverId?: string;
   deliveryDate?: string;

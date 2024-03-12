@@ -6,13 +6,12 @@ import { singleton } from 'tsyringe';
 
 @singleton()
 export class GetDeliveriesDao {
-  public async getDeliveryById(deliveryId: string, orderId: string): Promise<Delivery | null> {
+  public async getDeliveryById(deliveryId: string): Promise<Delivery | null> {
     // Create a command to get item
     const getItemCommand = new GetItemCommand({
       TableName: 'Deliveries',
       Key: marshall({
         deliveryId: deliveryId,
-        orderId: orderId,
       }), // Marshal the key
     });
 

@@ -3,7 +3,6 @@ import { Delivery, DeliveryInstructions, DeliveryStatus } from '../../src/daos/m
 
 // Example usage:
 const mockDeliveries: Delivery = {
-  orderId: 'order123',
   deliveryId: 'delivery789',
   driverId: 'driverXYZ',
   deliveryDate: '2018-03-20T09:12:28Z',

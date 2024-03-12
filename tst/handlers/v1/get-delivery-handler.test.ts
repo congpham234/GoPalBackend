@@ -29,7 +29,7 @@ describe('GetDeliveryHandler', () => {
 
     await getDeliveryHandler.getDelivery(mockRequest as Request, mockResponse as Response);
 
-    expect(mockDeliveriesDao.getDeliveryById).toHaveBeenCalledWith('delivery789', 'order123');
+    expect(mockDeliveriesDao.getDeliveryById).toHaveBeenCalledWith('delivery789');
     expect(mockResponse.json).toHaveBeenCalledWith(mockDeliveries);
   });
 
@@ -39,7 +39,7 @@ describe('GetDeliveryHandler', () => {
     await expect(getDeliveryHandler.getDelivery(mockRequest as Request, mockResponse as Response))
       .rejects.toThrow(DeliveryNotFoundError);
 
-    expect(mockDeliveriesDao.getDeliveryById).toHaveBeenCalledWith('delivery789', 'order123');
+    expect(mockDeliveriesDao.getDeliveryById).toHaveBeenCalledWith('delivery789');
     expect(mockResponse.json).not.toHaveBeenCalled();
   });
 });

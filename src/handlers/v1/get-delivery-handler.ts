@@ -12,7 +12,7 @@ export class GetDeliveryHandler {
   }
 
   public async getDelivery(req: Request, res: Response): Promise<void> {
-    const delivery = await this.deliveriesDao.getDeliveryById('delivery789', 'order123');
+    const delivery = await this.deliveriesDao.getDeliveryById('delivery789');
     if (delivery) {
       res.json(delivery);
     } else {
