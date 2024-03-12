@@ -15,10 +15,12 @@ describe('GetDeliveryHandler', () => {
     mockDeliveriesDao = {
       getDeliveryById: jest.fn(),
     } as unknown as jest.Mocked<GetDeliveriesDao>;
-
     getDeliveryHandler = new GetDeliveryHandler(mockDeliveriesDao);
-
-    mockRequest = {};
+    mockRequest = {
+      query: {
+        deliveryId: 'delivery789',
+      },
+    };
     mockResponse = {
       json: jest.fn(),
     };

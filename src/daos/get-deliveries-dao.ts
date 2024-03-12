@@ -7,6 +7,7 @@ import { singleton } from 'tsyringe';
 @singleton()
 export class GetDeliveriesDao {
   public async getDeliveryById(deliveryId: string): Promise<Delivery | null> {
+    console.log(deliveryId);
     // Create a command to get item
     const getItemCommand = new GetItemCommand({
       TableName: 'Deliveries',
