@@ -1,7 +1,7 @@
+import { Delivery } from '../../../generated';
 import { GetDeliveriesDao } from '../../daos/get-deliveries-dao';
 import { DeliveryNotFoundError } from '../../exceptions/delivery-not-found-error';
 import { inject, singleton } from 'tsyringe';
-import { Delivery } from '../../../generated';
 
 @singleton()
 export class GetDeliveryHandler {
