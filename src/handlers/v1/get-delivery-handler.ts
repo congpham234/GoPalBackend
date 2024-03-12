@@ -14,6 +14,7 @@ export class GetDeliveryHandler {
   public async getDelivery(deliveryId: string): Promise<Delivery> {
     const delivery = await this.deliveriesDao.getDeliveryById(deliveryId);
     if (delivery) {
+      // TODO: write better mapping between internal objects vs client object
       return delivery;
     } else {
       throw new DeliveryNotFoundError('Delivery not found');

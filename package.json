@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "npm install && generate-api-models && npm run format && npm run lint && npm run coverage && rm -rf dist",
+    "prebuild": "generate-api-models && npm run format && npm run lint && npm run coverage && rm -rf dist",
     "build": "npm run buildx",
     "test": "jest --detectOpenHandles",
     "buildx": "esbuild src/lambda-handler.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
