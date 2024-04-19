@@ -8,6 +8,7 @@ import { openApiValidator } from './middlewares/validator';
 import errorHandler from './middlewares/error-handler';
 import { readFileSync } from 'fs';
 import { logger } from './middlewares/logger';
+import bodyParser from 'body-parser';
 
 const app: Express = express();
 let server: Server | null = null;
@@ -24,6 +25,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOptions));
 
 app.use(errorHandler);
 app.use(openApiValidator);
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
 
 if (process.env.ENVIRONMENT !== 'lambda') {
   const port: number = Number(process.env.PORT) || 3000;

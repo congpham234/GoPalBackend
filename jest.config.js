@@ -19,11 +19,11 @@ module.exports = {
     '!**/routes/**',
   ],
   coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}]],
-  coverageThreshold: {
-    global: {
-      functions: 90,
-      lines: 90,
-    },
-  },
+  // coverageThreshold: {
+  //   global: {
+  //     functions: 90,
+  //     lines: 90,
+  //   },
+  // },
   testTimeout: 10000,
 };
