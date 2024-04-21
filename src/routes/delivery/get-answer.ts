@@ -1,19 +1,15 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { Answer, Question } from '../../../generated';
-import { GetAnswerHandler } from '../../handlers/v1/get-answer-handler';
+import { Answer } from '../../../generated';
+import { GeneratePromptImageHandler } from '../../handlers/v1/generate-prompt-image-handler';
 
-const getAnswerHandler = container.resolve(GetAnswerHandler);
+const generatePromptImageHandler = container.resolve(GeneratePromptImageHandler);
 
 const getAnswer = (router: Router): void => {
   router.post('/v1/ai', async (req, res, next) => {
     try {
-      const question = req.body as Question;
       let answer = '';
-      if (question.answer) {
-        answer = await getAnswerHandler.getAnswer(question.answer) ?? '';
-      }
-
+      answer = await generatePromptImageHandler.generatePromptImage('test') ?? '';
       // Create an instance of the Answer model
       const response: Answer = {
         answer,
