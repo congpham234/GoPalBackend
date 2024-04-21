@@ -18,12 +18,16 @@ export class ImageStorageDao {
     console.log(this.clientImageBucketName);
   }
 
-  public async uploadImageAndGetUrlFromGeneratedImageBucket(fileKey: string, fileContent: Buffer, expiration = 3600): Promise<string> {
+  public async uploadImageAndGetUrlFromGeneratedImageBucket(fileKey: string, fileContent: Buffer): Promise<string> {
     await this.uploadImage(this.generatedImageBucketName, fileKey, fileContent);
-    return this.getPresignedUrl(this.generatedImageBucketName, fileKey, expiration);
+    return this.getPresignedUrl(this.generatedImageBucketName, fileKey);
   }
 
-  public async uploadImage(bucketName: string, fileKey: string, fileContent: Buffer): Promise<void> {
+  public async getClientImageUrlFromS3(fileKey: string) {
+    return this.getPresignedUrl(this.clientImageBucketName, fileKey);
+  }
+
+  private async uploadImage(bucketName: string, fileKey: string, fileContent: Buffer): Promise<void> {
     try {
       const uploadCommand = new PutObjectCommand({
         Bucket: bucketName,
@@ -39,7 +43,7 @@ export class ImageStorageDao {
     }
   }
 
-  public async getPresignedUrl(bucketName: string, fileKey: string, expiration = 3600): Promise<string> {
+  private async getPresignedUrl(bucketName: string, fileKey: string, expiration = 3600): Promise<string> {
     const command = new GetObjectCommand({
       Bucket: bucketName,
       Key: fileKey,
