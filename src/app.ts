@@ -9,6 +9,7 @@ import errorHandler from './middlewares/error-handler';
 import { readFileSync } from 'fs';
 import { logger } from './middlewares/logger';
 import bodyParser from 'body-parser';
+import { AppConfig } from './app-config';
 
 const app: Express = express();
 let server: Server | null = null;
@@ -31,13 +32,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-if (process.env.ENVIRONMENT !== 'lambda') {
-  const port: number = Number(process.env.PORT) || 3000;
+export const startServer = async () => {
+  if (process.env.ENVIRONMENT !== 'lambda') {
+    const port: number = Number(process.env.PORT) || 3000;
 
-  server = app.listen(port, () => {
-    logger.info('Server is listening to port: ' + port);
-  });
-}
+    try {
+      await AppConfig.getInstance().initializeAppConfig();
+      server = app.listen(port, () => {
+        logger.info('Server is listening to port: ' + port);
+      });
+    } catch (error) {
+      console.error('Error initializing AppConfig:', error);
+      // Handle the error appropriately
+    }
+  }
+};
+
+startServer();
 
 app.use('/', createRouter());
 
