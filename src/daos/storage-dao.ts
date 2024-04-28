@@ -5,7 +5,7 @@ import { s3Client } from '../middlewares/s3-connection';
 import TOKENS from '../middlewares/di-tokens';
 
 @singleton()
-export class ImageStorageDao {
+export class StorageDao {
   private generatedImageBucketName: string;
   private clientImageBucketName: string;
 

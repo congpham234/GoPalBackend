@@ -1,15 +1,15 @@
 import { inject, singleton } from 'tsyringe';
-import { ImageStorageDao } from '../../daos/image-storage-dao';
+import { StorageDao } from '../../daos/storage-dao';
 import { ImageGenerationDao } from '../../daos/imageGenerator/image-generation-dao-interface';
 import { DalleGenerationDao } from '../../daos/imageGenerator/dalle-generation-dao';
 
 @singleton()
 export class GeneratePromptImageHandler {
-  private readonly imageStorageDao: ImageStorageDao;
+  private readonly imageStorageDao: StorageDao;
   private readonly imageGenerationDao: ImageGenerationDao;
 
   constructor(
-    @inject(ImageStorageDao) imageStorageDao: ImageStorageDao,
+    @inject(StorageDao) imageStorageDao: StorageDao,
     @inject(DalleGenerationDao) imageGenerationDao: DalleGenerationDao,
   ) {
     this.imageStorageDao = imageStorageDao;
