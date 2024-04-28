@@ -1,7 +1,7 @@
 import { singleton } from 'tsyringe';
 import { ImageGenerationDao } from './image-generation-dao-interface';
 import { openai } from '../../middlewares/open-ai';
-import { createTransparentMaskFromUrl, imageUrlToBuffer, imageUrlToReadStream } from '../utils/image-utils';
+import { createTransparentMaskFromUrl, imageUrlToBuffer, imageUrlToReadStream } from './utils/image-utils';
 
 @singleton()
 export class DalleGenerationDao implements ImageGenerationDao {
