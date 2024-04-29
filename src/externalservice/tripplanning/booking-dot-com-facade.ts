@@ -1,6 +1,6 @@
 import { singleton } from 'tsyringe';
 import axios from 'axios';
-import { SearchAttractionInput, SearchAttractionLocationInput, SearchAttractionLocationOutput, SearchAttractionOutput } from './model/booking-dot-com-model';
+import { SearchAttractionInput, SearchAttractionLocationInput, SearchAttractionLocationOutput, SearchAttractionOutput } from './models/booking-dot-com-model';
 import { AppConfig, AppConfigKey } from '../../app-config';
 
 @singleton()

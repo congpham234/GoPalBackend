@@ -9,7 +9,7 @@ const getAnswer = (router: Router): void => {
   router.post('/v1/ai', async (req, res, next) => {
     try {
       let answer = '';
-      answer = (await handler.planTrip('Vancouver', 'en-us')).toString() ?? '';
+      answer = (await handler.planTrip('Vancouver', 'en-us', '3')).toString() ?? '';
       // Create an instance of the Answer model
       const response: Answer = {
         answer,

@@ -1,4 +1,3 @@
-import { AttractionLocation } from '../../daos/models/attraction';
 import { TripPlanningDao } from '../../daos/tripplanning/trip-planning-dao';
 import { TripPlanningDaoInterface } from '../../daos/tripplanning/trip-planning-dao-interface';
 import { DeliveryNotFoundError } from '../../exceptions/delivery-not-found-error';
@@ -12,13 +11,17 @@ export class TripPlanningHandler {
     this.tripPlanningDao = tripPlanningDao;
   }
 
-  public async planTrip(query: string, languagecode: string): Promise<AttractionLocation[]> {
-    const attractions = await this.tripPlanningDao.searchAttractionLocations(query, languagecode);
+  public async planTrip(query: string, languageCode: string, numOfDays: string): Promise<string> {
+    const result = await this.tripPlanningDao.planTrip({
+      query,
+      languageCode,
+      numOfDays,
+    });
 
-    if (attractions) {
+    if (result) {
       // TODO: write better mapping between internal objects vs client object
       // TODO: Convert this into client objects in generated
-      return attractions;
+      return result.placeholder;
     } else {
       throw new DeliveryNotFoundError('Delivery not found');
     }
