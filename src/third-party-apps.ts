@@ -14,10 +14,10 @@ export class ThirdPartyApps {
   public readonly logger: Logger;
 
   private constructor() {
-    const region = AppConfig.getInstance().getValue(AppConfigKey.AWS_REGION);
-    this.ddbClient = new DynamoDBClient({ region });
-    this.s3Client = new S3Client({ region });
-    this.openAI = new OpenAI();
+    const appConfig = AppConfig.getInstance();
+    this.ddbClient = new DynamoDBClient({ region: appConfig.getValue(AppConfigKey.AWS_REGION) });
+    this.s3Client = new S3Client({ region: appConfig.getValue(AppConfigKey.AWS_REGION) });
+    this.openAI = new OpenAI({ apiKey: appConfig.getValue(AppConfigKey.OPEN_AI_API_KEY) });
     this.logger = new Logger();
   }
 
