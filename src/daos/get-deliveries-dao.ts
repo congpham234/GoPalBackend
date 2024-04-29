@@ -1,8 +1,8 @@
 import { GetItemCommand } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { Delivery } from './models/delivery';
-import { ddbClient } from '../middlewares/dynamodb-connection';
 import { singleton } from 'tsyringe';
+import { ThirdPartyApps } from '../third-party-apps';
 
 @singleton()
 export class GetDeliveriesDao {
@@ -16,7 +16,7 @@ export class GetDeliveriesDao {
     });
 
     // Send the command to DynamoDB
-    const { Item } = await ddbClient.send(getItemCommand);
+    const { Item } = await ThirdPartyApps.getInstance().ddbClient.send(getItemCommand);
 
     // Unmarshal the returned item
     return Item ? unmarshall(Item) as Delivery : null;

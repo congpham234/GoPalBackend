@@ -17,9 +17,15 @@ export class AppConfig {
   public async initializeAppConfig(): Promise<void> {
     if (this.initialized) return;
 
+    const awsRegion = 'us-west-2';
+    this.keyValueMap.set(AppConfigKey.AWS_REGION, awsRegion);
+
     try {
-      const bookingDotComApiKey = await getSecret('BookingDotComAPIKey');
+      const bookingDotComApiKey = await getSecret('BookingDotComAPIKey', awsRegion);
+      const openAiApiKey = await getSecret('OpenAiAPIKeyId', awsRegion);
+
       this.keyValueMap.set(AppConfigKey.BOOKING_DOT_COM_API_KEY, bookingDotComApiKey);
+      this.keyValueMap.set(AppConfigKey.OPEN_AI_API_KEY, openAiApiKey);
       this.initialized = true;
     } catch (error) {
       console.error('Error fetching API key:', error);
@@ -32,13 +38,15 @@ export class AppConfig {
 }
 
 export enum AppConfigKey {
-  BOOKING_DOT_COM_API_KEY = 'BOOKING_DOT_COM_API_KEY'
+  BOOKING_DOT_COM_API_KEY,
+  OPEN_AI_API_KEY,
+  AWS_REGION,
 }
 
 // Function to retrieve a secret
-async function getSecret(secretName: string): Promise<string> {
+async function getSecret(secretName: string, awsRegion: string): Promise<string> {
   const client = new SecretsManager({
-    region: 'us-west-2',
+    region: awsRegion,
   });
   const data = await client.getSecretValue({ SecretId: secretName }).promise();
   return data.SecretString ?? '';

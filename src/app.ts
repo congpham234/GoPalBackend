@@ -10,6 +10,7 @@ import { readFileSync } from 'fs';
 import { logger } from './middlewares/logger';
 import bodyParser from 'body-parser';
 import { AppConfig } from './app-config';
+import { ThirdPartyApps } from './third-party-apps';
 
 const app: Express = express();
 let server: Server | null = null;
@@ -38,9 +39,13 @@ export const startServer = async () => {
 
     try {
       await AppConfig.getInstance().initializeAppConfig();
+      await ThirdPartyApps.getInstance();
+
       server = app.listen(port, () => {
         logger.info('Server is listening to port: ' + port);
       });
+
+      app.use('/', createRouter());
     } catch (error) {
       console.error('Error initializing AppConfig:', error);
       // Handle the error appropriately
@@ -49,8 +54,6 @@ export const startServer = async () => {
 };
 
 startServer();
-
-app.use('/', createRouter());
 
 export const closeServer = () => {
   if (server) {

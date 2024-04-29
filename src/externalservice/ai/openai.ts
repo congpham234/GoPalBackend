@@ -1,11 +1,11 @@
 import { singleton } from 'tsyringe';
-import { openai } from '../../middlewares/open-ai';
+import { ThirdPartyApps } from '../../third-party-apps';
 
 @singleton()
 export class OpenAiFacade {
   public answer = async (systemPrompt: string, userPrompt: string): Promise<string> => {
     try {
-      const completion = await openai.chat.completions.create({
+      const completion = await ThirdPartyApps.getInstance().openAI.chat.completions.create({
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },

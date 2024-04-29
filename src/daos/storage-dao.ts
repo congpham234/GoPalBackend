@@ -1,25 +1,20 @@
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { inject, singleton } from 'tsyringe';
-import { s3Client } from '../middlewares/s3-connection';
-import TOKENS from '../middlewares/di-tokens';
+import { singleton } from 'tsyringe';
+import { ThirdPartyApps } from '../third-party-apps';
 
 @singleton()
 export class StorageDao {
   private generatedImageBucketName: string;
   private clientImageBucketName: string;
 
-  constructor(
-    @inject(TOKENS.generatedImageBucketName) generatedImageBucketName: string,
-    @inject(TOKENS.clientImageBucketName) clientImageBucketName: string,
-  ) {
-    this.generatedImageBucketName = generatedImageBucketName;
-    this.clientImageBucketName = clientImageBucketName;
-    console.log(this.clientImageBucketName);
+  constructor() {
+    this.generatedImageBucketName = ThirdPartyApps.getInstance().generatedImageBucketName;
+    this.clientImageBucketName = ThirdPartyApps.getInstance().clientImageBucketName;
   }
 
   public async uploadImageAndGetUrlFromGeneratedImageBucket(fileKey: string, fileContent: Buffer): Promise<string> {
-    await this.uploadImage(this.generatedImageBucketName, fileKey, fileContent);
+    await this.uploadFile(this.generatedImageBucketName, fileKey, fileContent);
     return this.getPresignedUrl(this.generatedImageBucketName, fileKey);
   }
 
@@ -27,7 +22,7 @@ export class StorageDao {
     return this.getPresignedUrl(this.clientImageBucketName, fileKey);
   }
 
-  private async uploadImage(bucketName: string, fileKey: string, fileContent: Buffer): Promise<void> {
+  private async uploadFile(bucketName: string, fileKey: string, fileContent: Buffer): Promise<void> {
     try {
       const uploadCommand = new PutObjectCommand({
         Bucket: bucketName,
@@ -35,8 +30,7 @@ export class StorageDao {
         Body: fileContent,
       });
 
-      const response = await s3Client.send(uploadCommand);
-      console.log(response);
+      await ThirdPartyApps.getInstance().s3Client.send(uploadCommand);
     } catch (error) {
       console.error('Error uploading file:', error);
       throw error;
@@ -52,7 +46,7 @@ export class StorageDao {
     try {
       // The getSignedUrl function creates a presigned URL that you can use to perform
       // the HTTP GET operation on the S3 object. The URL is valid for the specified duration.
-      const url = await getSignedUrl(s3Client, command, { expiresIn: expiration });
+      const url = await getSignedUrl(ThirdPartyApps.getInstance().s3Client, command, { expiresIn: expiration });
       return url;
     } catch (error) {
       console.error('Error generating presigned URL:', error);
