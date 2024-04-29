@@ -1,14 +1,14 @@
 import { singleton } from 'tsyringe';
 import { ImageGenerationDao } from './image-generation-dao-interface';
-import { openai } from '../../middlewares/open-ai';
 import { createTransparentMaskFromUrl, imageUrlToBuffer, imageUrlToReadStream } from './utils/image-utils';
+import { ThirdPartyApps } from '../../third-party-apps';
 
 @singleton()
 export class DalleGenerationDao implements ImageGenerationDao {
   public generateImage = async (imageUrl: string, prompt: string): Promise<Buffer> => {
     // Adjustments may be needed if your API or middleware supports handling an image URL directly.
     // Assuming you have a way to handle images by URL or previously generated image tokens:
-    const response = await openai.images.edit({
+    const response = await ThirdPartyApps.getInstance().openAI.images.edit({
       model: 'dall-e-2',
       image: await imageUrlToReadStream(imageUrl),
       mask: await createTransparentMaskFromUrl(imageUrl),
