@@ -9,6 +9,7 @@ export class StorageDao {
   private clientImageBucketName: string;
 
   constructor() {
+    // TODO: Test this whenever possible, this may not work!
     this.generatedImageBucketName = ThirdPartyApps.getInstance().generatedImageBucketName;
     this.clientImageBucketName = ThirdPartyApps.getInstance().clientImageBucketName;
   }

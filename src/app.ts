@@ -7,7 +7,6 @@ import createRouter from './routes/router';
 import { openApiValidator } from './middlewares/validator';
 import errorHandler from './middlewares/error-handler';
 import { readFileSync } from 'fs';
-import { logger } from './middlewares/logger';
 import bodyParser from 'body-parser';
 import { AppConfig } from './app-config';
 import { ThirdPartyApps } from './third-party-apps';
@@ -42,7 +41,7 @@ export const startServer = async () => {
       await ThirdPartyApps.getInstance();
 
       server = app.listen(port, () => {
-        logger.info('Server is listening to port: ' + port);
+        console.log('Server is listening to port: ' + port);
       });
 
       app.use('/', createRouter());
@@ -59,7 +58,7 @@ export const closeServer = () => {
   if (server) {
     server.close();
   } else {
-    logger.warn('Server Is Not Running!');
+    console.log('Server Is Not Running!');
   }
 };
 
