@@ -4,7 +4,7 @@
         "strict":true,
         "preserveConstEnums":true,
         "noEmit":true,
-        "sourceMap":false,
+        "sourceMap":true,
         "module":"commonjs",
         "moduleResolution":"node",
         "esModuleInterop":true,
@@ -13,7 +13,6 @@
         "isolatedModules":true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "inlineSourceMap": true
     },
     "exclude":[
         "node_modules",
