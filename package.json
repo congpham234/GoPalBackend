@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "generate-api-models && npm run format && npm run lint && npm run coverage && rm -rf dist",
+    "prebuild": "npm run format && npm run lint && npm run coverage && rm -rf dist",
     "build": "npm run buildx",
     "test": "jest --detectOpenHandles",
     "buildx": "esbuild src/lambda-handler.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
@@ -35,7 +35,8 @@
     "sharp": "^0.33.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "tsyringe": "^4.8.0"
+    "tsyringe": "^4.8.0",
+    "gopalapimodel": "^1.0.7"
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.131",
@@ -45,7 +46,6 @@
     "@types/node": "^20.11.6",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
-    "adsmngserviceapimodel": "^1.0.0",
     "esbuild": "0.19.11",
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
@@ -56,6 +56,7 @@
     "nodemon": "^3.0.3",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "gopalapimodel": "^1.0.7"
   }
 }
