@@ -20,7 +20,7 @@ Step 1: Install Docker.
 
 Step 2: Start the server in docker container
 ```
-docker run --platform linux/amd64 -p 9000:8080 ads-mng-service:latest
+docker run --platform linux/amd64 -p 9000:8080 gopalbackend:latest
 ```
 
 Step 3: To test, open another terminal and run:
@@ -30,7 +30,7 @@ curl -X Get "http://localhost:9000/v1/delivery"
 
 Step 4: To bash into docker container, run:
 ```
-docker run --rm -it --entrypoint /bin/bash ads-mng-service:latest
+docker run --rm -it --entrypoint /bin/bash gopalbackend:latest
 ```
 
 --------------------
