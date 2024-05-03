@@ -7,7 +7,12 @@ import {
   SearchAttractionOutput,
 } from './models/attractions';
 import { AppConfig, AppConfigKey } from '../../app-config';
-import { SearchHotelDestinationOutput } from './models/hotels';
+import {
+  SearchHotelDestinationInput,
+  SearchHotelDestinationOutput,
+  SearchHotelsInput,
+  SearchHotelsOutput,
+} from './models/hotels';
 
 @singleton()
 export class BookingDotComFacade {
@@ -20,14 +25,28 @@ export class BookingDotComFacade {
     };
   }
 
-  public async searchHotelDestination(input: SearchAttractionLocationInput): Promise<SearchHotelDestinationOutput> {
-    console.log(input);
-    return {
-      status: true,
-      message: '',
-      timestamp: 1,
-      data: [],
+  public async searchHotels(input: SearchHotelsInput): Promise<SearchHotelsOutput> {
+    const options = {
+      method: 'GET',
+      url: 'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels',
+      params: input,
+      headers: this.getRapidApiHeader(),
     };
+
+    const response = await axios.request(options);
+    return response.data;
+  }
+
+  public async searchHotelDestination(input: SearchHotelDestinationInput): Promise<SearchHotelDestinationOutput> {
+    const options = {
+      method: 'GET',
+      url: 'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination',
+      params: input,
+      headers: this.getRapidApiHeader(),
+    };
+
+    const response = await axios.request(options);
+    return response.data;
   }
 
   public async searchAttractionLocations(input: SearchAttractionLocationInput): Promise<SearchAttractionLocationOutput> {

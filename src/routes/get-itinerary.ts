@@ -10,7 +10,7 @@ const getItinerary = (router: Router): void => {
     try {
       const request: GetItineraryRequestContent = req.body;
       const test = await getItineraryHandler.process(request);
-      res.send({ country: test.destination });
+      res.send(test);
     } catch (error) {
       next(error);
     }
