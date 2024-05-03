@@ -1,7 +1,13 @@
 import { singleton } from 'tsyringe';
 import axios from 'axios';
-import { SearchAttractionInput, SearchAttractionLocationInput, SearchAttractionLocationOutput, SearchAttractionOutput } from './models/booking-dot-com-model';
+import {
+  SearchAttractionInput,
+  SearchAttractionLocationInput,
+  SearchAttractionLocationOutput,
+  SearchAttractionOutput,
+} from './models/attractions';
 import { AppConfig, AppConfigKey } from '../../app-config';
+import { SearchHotelDestinationOutput } from './models/hotels';
 
 @singleton()
 export class BookingDotComFacade {
@@ -11,6 +17,16 @@ export class BookingDotComFacade {
     return {
       'X-RapidAPI-Key': AppConfig.getInstance().getValue(AppConfigKey.BOOKING_DOT_COM_API_KEY),
       'X-RapidAPI-Host': this.BOOKING_DOT_COM_RAPIDAPI_HOST,
+    };
+  }
+
+  public async searchHotelDestination(input: SearchAttractionLocationInput): Promise<SearchHotelDestinationOutput> {
+    console.log(input);
+    return {
+      status: true,
+      message: '',
+      timestamp: 1,
+      data: [],
     };
   }
 

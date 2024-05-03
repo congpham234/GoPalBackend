@@ -73,9 +73,13 @@
                   },
                   "numOfPeople": {
                       "type": "number"
+                  },
+                  "country": {
+                      "type": "string"
                   }
               },
               "required": [
+                  "country",
                   "destination",
                   "endDate",
                   "numOfPeople",
@@ -85,9 +89,6 @@
           "GetItineraryResponseContent": {
               "type": "object",
               "properties": {
-                  "country": {
-                      "type": "string"
-                  },
                   "destination": {
                       "type": "string"
                   },
@@ -155,13 +156,19 @@
                   "location": {
                       "type": "string"
                   },
-                  "locationImageUrl": {
-                      "type": "string"
-                  },
                   "description": {
                       "type": "string"
+                  },
+                  "locationImageUrl": {
+                      "type": "string"
                   }
-              }
+              },
+              "required": [
+                  "dayNumber",
+                  "description",
+                  "location",
+                  "title"
+              ]
           },
           "TerminalExceptionResponseContent": {
               "type": "object",
