@@ -53,6 +53,55 @@
                     }
                 }
             }
+        },
+        "/v1/search-destination": {
+            "get": {
+                "description": "This is to return search destination",
+                "operationId": "SearchDestination",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Names of locations, cities, districts, places, countries, counties etc.",
+                        "schema": {
+                            "type": "string",
+                            "description": "Names of locations, cities, districts, places, countries, counties etc."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SearchDestination 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SearchDestinationResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundException 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundExceptionResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "TerminalException 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TerminalExceptionResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -97,11 +146,48 @@
                     "dayNumber"
                 ]
             },
+            "Destination": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "destId": {
+                        "type": "string"
+                    },
+                    "destType": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "country": {
+                        "type": "string"
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "region": {
+                        "type": "string"
+                    },
+                    "cityName": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "country",
+                    "destId",
+                    "destType",
+                    "imageUrl",
+                    "label",
+                    "name"
+                ]
+            },
             "GetItineraryRequestContent": {
                 "type": "object",
                 "properties": {
                     "destination": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/Destination"
                     },
                     "startDate": {
                         "type": "string",
@@ -113,13 +199,9 @@
                     },
                     "numOfPeople": {
                         "type": "number"
-                    },
-                    "country": {
-                        "type": "string"
                     }
                 },
                 "required": [
-                    "country",
                     "destination",
                     "endDate",
                     "numOfPeople",
@@ -129,15 +211,6 @@
             "GetItineraryResponseContent": {
                 "type": "object",
                 "properties": {
-                    "country": {
-                        "type": "string"
-                    },
-                    "destination": {
-                        "type": "string"
-                    },
-                    "destinationImageUrl": {
-                        "type": "string"
-                    },
                     "placesToStay": {
                         "type": "array",
                         "items": {
@@ -150,7 +223,10 @@
                             "$ref": "#/components/schemas/Day"
                         }
                     }
-                }
+                },
+                "required": [
+                    "planningDays"
+                ]
             },
             "NotFoundExceptionResponseContent": {
                 "type": "object",
@@ -189,6 +265,17 @@
                 "required": [
                     "name"
                 ]
+            },
+            "SearchDestinationResponseContent": {
+                "type": "object",
+                "properties": {
+                    "destinations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Destination"
+                        }
+                    }
+                }
             },
             "TerminalExceptionResponseContent": {
                 "type": "object",

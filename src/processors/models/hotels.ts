@@ -1,18 +1,13 @@
 
 export interface SearchDestinationHotelsInput {
-  query: string,
+  destId: string,
+  searchType: string,
   startDate: string;
   endDate: string;
   numOfPeople: string;
 }
 
 export interface SearchDestinationHotelsOutput {
-  country: string;
-  name: string;
-  city_name: string;
-  label: string;
-  region: string;
-  image_url: string;
   hotels: Hotel[];
 }
 

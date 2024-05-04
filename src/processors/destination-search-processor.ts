@@ -1,7 +1,13 @@
 import { inject, singleton } from 'tsyringe';
 import { BookingDotComFacade } from '../externalservice/tripplanning/booking-dot-com-facade';
-import { SearchHotelDestinationOutput, SearchHotelsOutput, Destination, Hotel as ExternalHotel } from '../externalservice/tripplanning/models/hotels';
+import {
+  SearchHotelDestinationOutput,
+  SearchHotelsOutput,
+  Destination as ExternalDestination,
+  Hotel as ExternalHotel,
+} from '../externalservice/tripplanning/models/hotels';
 import { SearchDestinationHotelsInput, SearchDestinationHotelsOutput, Hotel } from './models/hotels';
+import { Destination, SearchDestinationsInput, SearchDestinationsOutput } from './models/destinations';
 
 @singleton()
 export class DestinationSearchProcessor {
@@ -9,20 +15,36 @@ export class DestinationSearchProcessor {
     @inject(BookingDotComFacade) private bookingDotComFacade: BookingDotComFacade,
   ) { }
 
+  public async searchDestinations(input: SearchDestinationsInput): Promise<SearchDestinationsOutput> {
+    const destinationOutput: SearchHotelDestinationOutput = await this.bookingDotComFacade.searchHotelDestination(input);
+
+    const destinations: Destination[] = [];
+    destinationOutput.data.forEach((externalDest: ExternalDestination) => {
+      destinations.push(this.mapExternalDestinationToDestination(externalDest));
+    });
+    return {
+      destinations,
+    };
+  }
+
+  private mapExternalDestinationToDestination(input: ExternalDestination): Destination {
+    return {
+      label: input.label,
+      region: input.region,
+      name: input.name,
+      country: input.country,
+      destId: input.dest_id,
+      destType: input.dest_type,
+      cityName: input.city_name,
+      imageUrl: input.image_url,
+    };
+  }
+
   public async searchDestinationHotels(input: SearchDestinationHotelsInput): Promise<SearchDestinationHotelsOutput> {
     try {
-      const destinationOutput: SearchHotelDestinationOutput = await this.bookingDotComFacade.searchHotelDestination({
-        query: input.query,
-      });
-      if (destinationOutput.data.length === 0) {
-        throw new Error('No destinations found for the given query.');
-      }
-      // TODO: Make this dynamic or something.
-      const firstDestination: Destination = destinationOutput.data[0]; // Access the first item safely
-
       const hotelsOutput: SearchHotelsOutput = await this.bookingDotComFacade.searchHotels({
-        dest_id: firstDestination.dest_id,
-        search_type: firstDestination.dest_type.toUpperCase(),
+        dest_id: input.destId,
+        search_type: input.searchType.toUpperCase(),
         arrival_date: input.startDate,
         departure_date: input.endDate,
         adults: input.numOfPeople.toString(),
@@ -41,12 +63,6 @@ export class DestinationSearchProcessor {
       });
 
       return {
-        country: firstDestination.country,
-        name: firstDestination.name,
-        city_name: firstDestination.city_name,
-        label: firstDestination.label,
-        region: firstDestination.region,
-        image_url: firstDestination.image_url,
         hotels,
       };
     } catch (error) {

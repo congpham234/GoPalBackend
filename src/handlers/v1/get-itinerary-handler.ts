@@ -15,11 +15,11 @@ export class GetItineraryHandler {
 
   public async process(request: GetItineraryRequestContent): Promise<GetItineraryResponseContent> {
     // TODO: Add DATE validation here;
-
     const totalDays = calculateDaysBetweenDates(request.startDate, request.endDate);
 
     const searchDestinationHotelsOutput: SearchDestinationHotelsOutput = await this.destinationSearchProcessor.searchDestinationHotels({
-      query: request.destination,
+      destId: request.destination.destId,
+      searchType: request.destination.destType,
       startDate: request.startDate,
       endDate: request.endDate,
       numOfPeople: request.numOfPeople.toString(),
@@ -27,31 +27,24 @@ export class GetItineraryHandler {
 
     // TODO: Add Validation for searchDestinationHotelsOutput
     const planTripOutput: PlanTripOutput = await this.tripPlanningProcessor.planTrip({
-      query: request.destination,
-      country: request.country,
+      query: request.destination.name,
+      country: request.destination.country,
       numOfDays: totalDays,
     });
 
-    // Properly initialize the hotels array with type Hotel[]
     const placesToStay: PlaceToStay[] = [];
 
-    // Use forEach to iterate over limitedHotels of type ExternalHotel[]
     searchDestinationHotelsOutput.hotels.forEach((hotel: Hotel) => {
       placesToStay.push(this.mapHotelToPlaceToStay(hotel));
     });
 
-    // Properly initialize the hotels array with type Hotel[]
     const planningDays: PlanningDay[] = [];
 
-    // Use forEach to iterate over limitedHotels of type ExternalHotel[]
     planTripOutput.itinerary.forEach((day: Day) => {
       planningDays.push(this.mapDayToPlanningDay(day));
     });
 
     return {
-      country: searchDestinationHotelsOutput.country,
-      destination: searchDestinationHotelsOutput.name,
-      destinationImageUrl: searchDestinationHotelsOutput.image_url,
       placesToStay,
       planningDays,
     };
