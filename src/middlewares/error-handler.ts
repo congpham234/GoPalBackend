@@ -5,7 +5,7 @@ const errorHandler = (
   err: any,
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   // dump error to console for debug
   console.error(err)
