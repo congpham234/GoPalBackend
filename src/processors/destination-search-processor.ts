@@ -8,6 +8,7 @@ import {
 } from '../externalservice/tripplanning/models/hotels';
 import { SearchDestinationHotelsInput, SearchDestinationHotelsOutput, Hotel } from './models/hotels';
 import { Destination, SearchDestinationsInput, SearchDestinationsOutput } from './models/destinations';
+import { mapExternalDestinationToDestination } from '../utils/mapping';
 
 @singleton()
 export class DestinationSearchProcessor {
@@ -20,23 +21,10 @@ export class DestinationSearchProcessor {
 
     const destinations: Destination[] = [];
     destinationOutput.data.forEach((externalDest: ExternalDestination) => {
-      destinations.push(this.mapExternalDestinationToDestination(externalDest));
+      destinations.push(mapExternalDestinationToDestination(externalDest));
     });
     return {
       destinations,
-    };
-  }
-
-  private mapExternalDestinationToDestination(input: ExternalDestination): Destination {
-    return {
-      label: input.label,
-      region: input.region,
-      name: input.name,
-      country: input.country,
-      destId: input.dest_id,
-      destType: input.dest_type,
-      cityName: input.city_name,
-      imageUrl: input.image_url,
     };
   }
 
