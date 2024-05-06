@@ -6,15 +6,21 @@ import { SearchDestinationsOutput } from '../../processors/models/destinations';
 @singleton()
 export class SearchDestinationHandler {
   constructor(
-    @inject(DestinationSearchProcessor) private destinationSearchProcessor: DestinationSearchProcessor,
-  ) { }
+    @inject(DestinationSearchProcessor)
+    private destinationSearchProcessor: DestinationSearchProcessor,
+  ) {}
 
-  public async process(query: string): Promise<SearchDestinationResponseContent> {
-    const results: SearchDestinationsOutput = await this.destinationSearchProcessor.searchDestinations({ query });
+  public async process(
+    query: string,
+  ): Promise<SearchDestinationResponseContent> {
+    const results: SearchDestinationsOutput =
+      await this.destinationSearchProcessor.searchDestinations({ query });
     return this.mapResultToClientInterface(results);
   }
 
-  private mapResultToClientInterface(input: SearchDestinationsOutput): SearchDestinationResponseContent {
+  private mapResultToClientInterface(
+    input: SearchDestinationsOutput,
+  ): SearchDestinationResponseContent {
     return input;
   }
 }

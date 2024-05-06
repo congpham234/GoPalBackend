@@ -6,20 +6,25 @@ import { SearchDestinationHandler } from '../handlers/v1/search-destination-hand
 const searchDestination = (router: Router): void => {
   const handler = container.resolve(SearchDestinationHandler);
 
-  router.get('/v1/search-destination', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // query is string
-      const query = req.query.query;
-      if (typeof query !== 'string' || query.trim() === '') {
-        res.status(400).send('Query parameter is required and must be a non-empty string.');
-        return;
+  router.get(
+    '/v1/search-destination',
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        // query is string
+        const query = req.query.query;
+        if (typeof query !== 'string' || query.trim() === '') {
+          res
+            .status(400)
+            .send('Query parameter is required and must be a non-empty string.');
+          return;
+        }
+        const searchResult = await handler.process(query);
+        res.json(searchResult);
+      } catch (error) {
+        next(error); // Pass errors to Express error handling middleware
       }
-      const searchResult = await handler.process(query);
-      res.json(searchResult);
-    } catch (error) {
-      next(error); // Pass errors to Express error handling middleware
-    }
-  });
+    },
+  );
 };
 
 export default searchDestination;

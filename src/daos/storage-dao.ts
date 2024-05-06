@@ -10,11 +10,16 @@ export class StorageDao {
 
   constructor() {
     // TODO: Test this whenever possible, this may not work!
-    this.generatedImageBucketName = ThirdPartyApps.getInstance().generatedImageBucketName;
-    this.clientImageBucketName = ThirdPartyApps.getInstance().clientImageBucketName;
+    this.generatedImageBucketName =
+      ThirdPartyApps.getInstance().generatedImageBucketName;
+    this.clientImageBucketName =
+      ThirdPartyApps.getInstance().clientImageBucketName;
   }
 
-  public async uploadImageAndGetUrlFromGeneratedImageBucket(fileKey: string, fileContent: Buffer): Promise<string> {
+  public async uploadImageAndGetUrlFromGeneratedImageBucket(
+    fileKey: string,
+    fileContent: Buffer,
+  ): Promise<string> {
     await this.uploadFile(this.generatedImageBucketName, fileKey, fileContent);
     return this.getPresignedUrl(this.generatedImageBucketName, fileKey);
   }
@@ -23,7 +28,11 @@ export class StorageDao {
     return this.getPresignedUrl(this.clientImageBucketName, fileKey);
   }
 
-  private async uploadFile(bucketName: string, fileKey: string, fileContent: Buffer): Promise<void> {
+  private async uploadFile(
+    bucketName: string,
+    fileKey: string,
+    fileContent: Buffer,
+  ): Promise<void> {
     try {
       const uploadCommand = new PutObjectCommand({
         Bucket: bucketName,
@@ -38,7 +47,11 @@ export class StorageDao {
     }
   }
 
-  private async getPresignedUrl(bucketName: string, fileKey: string, expiration = 3600): Promise<string> {
+  private async getPresignedUrl(
+    bucketName: string,
+    fileKey: string,
+    expiration = 3600,
+  ): Promise<string> {
     const command = new GetObjectCommand({
       Bucket: bucketName,
       Key: fileKey,
@@ -47,7 +60,11 @@ export class StorageDao {
     try {
       // The getSignedUrl function creates a presigned URL that you can use to perform
       // the HTTP GET operation on the S3 object. The URL is valid for the specified duration.
-      const url = await getSignedUrl(ThirdPartyApps.getInstance().s3Client, command, { expiresIn: expiration });
+      const url = await getSignedUrl(
+        ThirdPartyApps.getInstance().s3Client,
+        command,
+        { expiresIn: expiration },
+      );
       return url;
     } catch (error) {
       console.error('Error generating presigned URL:', error);

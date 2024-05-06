@@ -15,9 +15,15 @@ export class ThirdPartyApps {
 
   private constructor() {
     const appConfig = AppConfig.getInstance();
-    this.ddbClient = new DynamoDBClient({ region: appConfig.getValue(AppConfigKey.AWS_REGION) });
-    this.s3Client = new S3Client({ region: appConfig.getValue(AppConfigKey.AWS_REGION) });
-    this.openAI = new OpenAI({ apiKey: appConfig.getValue(AppConfigKey.OPEN_AI_API_KEY) });
+    this.ddbClient = new DynamoDBClient({
+      region: appConfig.getValue(AppConfigKey.AWS_REGION),
+    });
+    this.s3Client = new S3Client({
+      region: appConfig.getValue(AppConfigKey.AWS_REGION),
+    });
+    this.openAI = new OpenAI({
+      apiKey: appConfig.getValue(AppConfigKey.OPEN_AI_API_KEY),
+    });
     this.logger = new Logger();
   }
 

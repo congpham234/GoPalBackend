@@ -1,4 +1,7 @@
-export const calculateDaysBetweenDates = (startDate: string, endDate: string): number => {
+export const calculateDaysBetweenDates = (
+  startDate: string,
+  endDate: string,
+): number => {
   // Parse the start and end dates into Date objects
   const start = new Date(startDate);
   const end = new Date(endDate);

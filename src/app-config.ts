@@ -1,11 +1,14 @@
-import { SecretsManager } from 'aws-sdk';
+import {
+  SecretsManagerClient,
+  GetSecretValueCommand,
+} from '@aws-sdk/client-secrets-manager';
 
 export class AppConfig {
   private static instance: AppConfig | null = null;
   private keyValueMap = new Map<AppConfigKey, string>();
   private initialized = false;
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): AppConfig {
     if (!AppConfig.instance) {
@@ -21,10 +24,16 @@ export class AppConfig {
     this.keyValueMap.set(AppConfigKey.AWS_REGION, awsRegion);
 
     try {
-      const bookingDotComApiKey = await getSecret('BookingDotComAPIKey', awsRegion);
+      const bookingDotComApiKey = await getSecret(
+        'BookingDotComAPIKey',
+        awsRegion,
+      );
       const openAiApiKey = await getSecret('OpenAiAPIKeyId', awsRegion);
 
-      this.keyValueMap.set(AppConfigKey.BOOKING_DOT_COM_API_KEY, bookingDotComApiKey);
+      this.keyValueMap.set(
+        AppConfigKey.BOOKING_DOT_COM_API_KEY,
+        bookingDotComApiKey,
+      );
       this.keyValueMap.set(AppConfigKey.OPEN_AI_API_KEY, openAiApiKey);
       this.initialized = true;
     } catch (error) {
@@ -44,10 +53,20 @@ export enum AppConfigKey {
 }
 
 // Function to retrieve a secret
-async function getSecret(secretName: string, awsRegion: string): Promise<string> {
-  const client = new SecretsManager({
-    region: awsRegion,
-  });
-  const data = await client.getSecretValue({ SecretId: secretName }).promise();
-  return data.SecretString ?? '';
+async function getSecret(
+  secretName: string,
+  awsRegion: string,
+): Promise<string> {
+  const client = new SecretsManagerClient({ region: awsRegion });
+  const command = new GetSecretValueCommand({ SecretId: secretName });
+  try {
+    const data = await client.send(command);
+    if (data.SecretString) {
+      return data.SecretString;
+    }
+  } catch (error) {
+    console.error('Failed to retrieve secret:', error);
+    throw error; // Re-throw the error to handle it in the calling function.
+  }
+  return ''; // Return an empty string if there is no secret or in case of error.
 }

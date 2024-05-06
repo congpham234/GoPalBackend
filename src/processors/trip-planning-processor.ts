@@ -4,9 +4,7 @@ import { OpenAiFacade } from '../externalservice/ai/openai';
 
 @singleton()
 export class TripPlanningProcessor {
-  constructor(
-    @inject(OpenAiFacade) private openAiFacade: OpenAiFacade,
-  ) { }
+  constructor(@inject(OpenAiFacade) private openAiFacade: OpenAiFacade) {}
 
   public async planTrip(input: PlanTripInput): Promise<PlanTripOutput> {
     const systemPrompt = `You only return the JSON response with the exact given format ${this.buildJsonPrompt()}`;
@@ -18,14 +16,20 @@ export class TripPlanningProcessor {
 
   private buildJsonPrompt(): string {
     const jsonPrompt = {
-      itinerary: [{
-        dayNumber: 'the type is number and it is unique in the list, each day should have at least 3 to 5 activities',
-        activities: [{
-          activityName: 'the name of the activity, for example "Exploring Stanley Park"',
-          location: 'the location name for example "Stanley Park"',
-          description: 'a few sentences about this location or activity',
-        }],
-      }],
+      itinerary: [
+        {
+          dayNumber:
+            'the type is number and it is unique in the list, each day should have at least 3 to 5 activities',
+          activities: [
+            {
+              activityName:
+                'the name of the activity, for example "Exploring Stanley Park"',
+              location: 'the location name for example "Stanley Park"',
+              description: 'a few sentences about this location or activity',
+            },
+          ],
+        },
+      ],
     };
     return JSON.stringify(jsonPrompt);
   }

@@ -17,9 +17,7 @@ let server: Server | null = null;
 /** ------------------*/
 const swaggerOptions = swaggerJSDoc({
   definition: JSON.parse(readFileSync('./openapi-spec.json', 'utf8')),
-  apis: [
-    './src/routes/**/*.ts',
-  ],
+  apis: ['./src/routes/**/*.ts'],
 });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOptions));
 /** ------------------*/

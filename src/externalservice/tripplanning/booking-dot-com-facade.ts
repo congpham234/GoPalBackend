@@ -16,16 +16,24 @@ import {
 
 @singleton()
 export class BookingDotComFacade {
-  private readonly BOOKING_DOT_COM_RAPIDAPI_HOST = 'booking-com15.p.rapidapi.com';
+  private readonly BOOKING_DOT_COM_RAPIDAPI_HOST =
+    'booking-com15.p.rapidapi.com';
 
-  private getRapidApiHeader(): { 'X-RapidAPI-Key': string, 'X-RapidAPI-Host': string } {
+  private getRapidApiHeader(): {
+    'X-RapidAPI-Key': string
+    'X-RapidAPI-Host': string
+    } {
     return {
-      'X-RapidAPI-Key': AppConfig.getInstance().getValue(AppConfigKey.BOOKING_DOT_COM_API_KEY),
+      'X-RapidAPI-Key': AppConfig.getInstance().getValue(
+        AppConfigKey.BOOKING_DOT_COM_API_KEY,
+      ),
       'X-RapidAPI-Host': this.BOOKING_DOT_COM_RAPIDAPI_HOST,
     };
   }
 
-  public async searchHotels(input: SearchHotelsInput): Promise<SearchHotelsOutput> {
+  public async searchHotels(
+    input: SearchHotelsInput,
+  ): Promise<SearchHotelsOutput> {
     const options = {
       method: 'GET',
       url: 'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels',
@@ -37,7 +45,9 @@ export class BookingDotComFacade {
     return response.data;
   }
 
-  public async searchHotelDestination(input: SearchHotelDestinationInput): Promise<SearchHotelDestinationOutput> {
+  public async searchHotelDestination(
+    input: SearchHotelDestinationInput,
+  ): Promise<SearchHotelDestinationOutput> {
     const options = {
       method: 'GET',
       url: 'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination',
@@ -49,7 +59,9 @@ export class BookingDotComFacade {
     return response.data;
   }
 
-  public async searchAttractionLocations(input: SearchAttractionLocationInput): Promise<SearchAttractionLocationOutput> {
+  public async searchAttractionLocations(
+    input: SearchAttractionLocationInput,
+  ): Promise<SearchAttractionLocationOutput> {
     const options = {
       method: 'GET',
       url: 'https://booking-com15.p.rapidapi.com/api/v1/attraction/searchLocation',
@@ -60,7 +72,9 @@ export class BookingDotComFacade {
     return response.data;
   }
 
-  public async searchAttractions(input: SearchAttractionInput): Promise<SearchAttractionOutput> {
+  public async searchAttractions(
+    input: SearchAttractionInput,
+  ): Promise<SearchAttractionOutput> {
     const options = {
       method: 'GET',
       url: 'https://booking-com15.p.rapidapi.com/api/v1/attraction/searchAttractions',

@@ -1,5 +1,9 @@
 import { BookingDotComFacade } from '../../src/externalservice/tripplanning/booking-dot-com-facade';
-import { Destination as ExternalDestination, SearchHotelDestinationInput, SearchHotelDestinationOutput } from '../../src/externalservice/tripplanning/models/hotels';
+import {
+  Destination as ExternalDestination,
+  SearchHotelDestinationInput,
+  SearchHotelDestinationOutput,
+} from '../../src/externalservice/tripplanning/models/hotels';
 import { DestinationSearchProcessor } from '../../src/processors/destination-search-processor';
 import { mock, instance, when, deepEqual } from 'ts-mockito';
 import { SearchDestinationsOutput } from '../../src/processors/models/destinations';
@@ -11,7 +15,9 @@ describe('DestinationSearchProcessor', () => {
 
   beforeEach(() => {
     mockedBookingDotComFacade = mock(BookingDotComFacade);
-    processor = new DestinationSearchProcessor(instance(mockedBookingDotComFacade));
+    processor = new DestinationSearchProcessor(
+      instance(mockedBookingDotComFacade),
+    );
   });
 
   describe('searchDestinations', () => {
@@ -38,8 +44,14 @@ describe('DestinationSearchProcessor', () => {
         data: [mockExternalDestination],
       };
 
-      when(mockedBookingDotComFacade.searchHotelDestination(deepEqual(input))).thenResolve(mockOutput);
-      const expected: SearchDestinationsOutput = { destinations: [mapExternalDestinationToDestination(mockExternalDestination)] };
+      when(
+        mockedBookingDotComFacade.searchHotelDestination(deepEqual(input)),
+      ).thenResolve(mockOutput);
+      const expected: SearchDestinationsOutput = {
+        destinations: [
+          mapExternalDestinationToDestination(mockExternalDestination),
+        ],
+      };
 
       const result = await processor.searchDestinations(input);
       expect(result).toEqual(expected);

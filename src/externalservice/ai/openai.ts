@@ -3,15 +3,19 @@ import { ThirdPartyApps } from '../../third-party-apps';
 
 @singleton()
 export class OpenAiFacade {
-  public answer = async (systemPrompt: string, userPrompt: string): Promise<string> => {
+  public answer = async (
+    systemPrompt: string,
+    userPrompt: string,
+  ): Promise<string> => {
     try {
-      const completion = await ThirdPartyApps.getInstance().openAI.chat.completions.create({
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
-        model: 'gpt-3.5-turbo-0125',
-      });
+      const completion =
+        await ThirdPartyApps.getInstance().openAI.chat.completions.create({
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt },
+          ],
+          model: 'gpt-3.5-turbo-0125',
+        });
 
       // Make sure completion.choices is not empty before accessing its content
       if (completion.choices && completion.choices.length > 0) {

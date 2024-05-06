@@ -1,22 +1,21 @@
 export interface PlanTripInput {
   // Names of locations, cities, districts, places, counties etc.
-  query: string;
-  country: string;
-  numOfDays: number;
+  query: string
+  country: string
+  numOfDays: number
 }
 
 export interface PlanTripOutput {
-  itinerary: Day[];
+  itinerary: Day[]
 }
 
 export interface Day {
-  dayNumber: number;
-  activities: Activity[];
+  dayNumber: number
+  activities: Activity[]
 }
 
 export interface Activity {
-  activityName: string;
-  location: string;
-  description: string;
+  activityName: string
+  location: string
+  description: string
 }
-
