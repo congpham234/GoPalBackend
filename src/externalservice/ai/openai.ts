@@ -3,10 +3,10 @@ import { ThirdPartyApps } from '../../third-party-apps';
 
 @singleton()
 export class OpenAiFacade {
-  public answer = async (
+  public async answer(
     systemPrompt: string,
     userPrompt: string,
-  ): Promise<string> => {
+  ): Promise<string> {
     try {
       const completion =
         await ThirdPartyApps.getInstance().openAI.chat.completions.create({
@@ -27,5 +27,5 @@ export class OpenAiFacade {
       console.error('Error while generating completion:', error);
       throw error;
     }
-  };
+  }
 }
