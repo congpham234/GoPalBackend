@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import getItinerary from './get-itinerary';
-import searchDestination from './search-destination';
+import getItinerary from './routes/get-itinerary';
+import searchDestination from './routes/search-destination';
 
 const createRouter = (): Router => {
   const router = Router();

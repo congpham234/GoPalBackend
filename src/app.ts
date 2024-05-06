@@ -3,7 +3,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import express, { Express } from 'express';
 import { Server } from 'http';
 import swaggerUi from 'swagger-ui-express';
-import createRouter from './routes/router';
+import createRouter from './router';
 import { openApiValidator } from './middlewares/validator';
 import errorHandler from './middlewares/error-handler';
 import { readFileSync } from 'fs';
