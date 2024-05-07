@@ -1,6 +1,6 @@
 import { TripPlanningProcessor } from '../../src/processors/trip-planning-processor';
 import { mock, instance, when, verify, anyString } from 'ts-mockito';
-import { OpenAiFacade } from '../../src/externalservice/ai/openai';
+import { OpenAiFacade } from '../../src/externalservice/ai/open-ai-facade';
 import { PlanTripInput } from '../../src/processors/models/plan-trip';
 
 describe('TripPlanningProcessor', () => {

@@ -1,6 +1,6 @@
 import { inject, singleton } from 'tsyringe';
 import { PlanTripInput, PlanTripOutput } from './models/plan-trip';
-import { OpenAiFacade } from '../externalservice/ai/openai';
+import { OpenAiFacade } from '../externalservice/ai/open-ai-facade';
 
 @singleton()
 export class TripPlanningProcessor {

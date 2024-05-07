@@ -4,7 +4,6 @@ import express, { Express } from 'express';
 import { Server } from 'http';
 import swaggerUi from 'swagger-ui-express';
 import createRouter from './router';
-import { openApiValidator } from './middlewares/validator';
 import errorHandler from './middlewares/error-handler';
 import { readFileSync } from 'fs';
 import bodyParser from 'body-parser';
@@ -23,7 +22,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOptions));
 /** ------------------*/
 
 app.use(errorHandler);
-app.use(openApiValidator);
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));

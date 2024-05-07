@@ -1,5 +1,6 @@
 import { singleton } from 'tsyringe';
 import { ThirdPartyApps } from '../../third-party-apps';
+import { ChatCompletion } from 'openai/resources';
 
 @singleton()
 export class OpenAiFacade {
@@ -8,7 +9,7 @@ export class OpenAiFacade {
     userPrompt: string,
   ): Promise<string> {
     try {
-      const completion =
+      const completion: ChatCompletion =
         await ThirdPartyApps.getInstance().openAI.chat.completions.create({
           messages: [
             { role: 'system', content: systemPrompt },
