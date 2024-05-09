@@ -1,11 +1,29 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.0",
   "info": {
     "title": "GoPal API Model",
     "version": "2024-05-01",
     "description": "Provides GoPal API Model"
   },
   "paths": {
+    "/v1/get-beer": {
+      "get": {
+        "description": "This is a health check api",
+        "operationId": "GetBeer",
+        "responses": {
+          "200": {
+            "description": "GetBeer 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBeerResponseContent"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/get-itinerary": {
       "post": {
         "description": "This API returns an AI generated trip planning from input",
@@ -175,6 +193,14 @@
           "label",
           "name"
         ]
+      },
+      "GetBeerResponseContent": {
+        "type": "object",
+        "properties": {
+          "beer": {
+            "type": "string"
+          }
+        }
       },
       "GetItineraryRequestContent": {
         "type": "object",
