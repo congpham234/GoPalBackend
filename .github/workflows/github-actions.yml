@@ -10,15 +10,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  dummy-job:
+  build-code:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Dummy Step
-        run: echo "This is a dummy step"
+      - name: Checkout GoPalBackend Repo repository
+        uses: actions/checkout@v2
+        with:
+          repository: congpham234/GoPalBackend
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Code
+        run: npm run build
 
   trigger-cdk-repo-workflow:
     runs-on: ubuntu-latest
-    needs: dummy-job
+    needs: build-code
     steps:
       - name: Trigger workflow in CDK repository
         run: |
