@@ -21,7 +21,12 @@ const swaggerOptions = swaggerJSDoc({
 });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOptions));
 /** ------------------*/
-app.use(cors);
+app.use(cors({
+  origin: true,
+  methods: 'GET, POST, OPTIONS, PUT, DELETE, PATCH',
+  allowedHeaders: '*',
+}));
+
 app.use(errorHandler);
 
 // parse application/x-www-form-urlencoded
