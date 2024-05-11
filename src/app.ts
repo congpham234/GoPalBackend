@@ -9,6 +9,7 @@ import { readFileSync } from 'fs';
 import bodyParser from 'body-parser';
 import { AppConfig } from './app-config';
 import { ThirdPartyApps } from './third-party-apps';
+import cors from 'cors';
 
 const app: Express = express();
 let server: Server | null = null;
@@ -20,7 +21,7 @@ const swaggerOptions = swaggerJSDoc({
 });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOptions));
 /** ------------------*/
-
+app.use(cors);
 app.use(errorHandler);
 
 // parse application/x-www-form-urlencoded
@@ -30,7 +31,7 @@ app.use(bodyParser.json());
 
 export const startServer = async () => {
   if (process.env.ENVIRONMENT !== 'lambda') {
-    const port: number = Number(process.env.PORT) || 3000;
+    const port: number = Number(process.env.PORT) || 3001;
 
     try {
       await AppConfig.getInstance().initializeAppConfig();
