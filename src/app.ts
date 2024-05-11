@@ -9,7 +9,6 @@ import { readFileSync } from 'fs';
 import bodyParser from 'body-parser';
 import { AppConfig } from './app-config';
 import { ThirdPartyApps } from './third-party-apps';
-import cors from 'cors';
 
 const app: Express = express();
 let server: Server | null = null;
@@ -21,7 +20,6 @@ const swaggerOptions = swaggerJSDoc({
 });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOptions));
 /** ------------------*/
-app.use(cors);
 app.use(errorHandler);
 
 // parse application/x-www-form-urlencoded
