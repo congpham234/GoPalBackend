@@ -50,7 +50,7 @@ export const startServer = async () => {
     const port: number = Number(process.env.PORT) || 3001;
 
     try {
-      await AppConfig.getInstance().initializeAppConfig();
+      await AppConfig.getInstance();
       await ThirdPartyApps.getInstance();
 
       server = app.listen(port, () => {

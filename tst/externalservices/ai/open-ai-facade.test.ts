@@ -21,7 +21,7 @@ describe('OpenAiFacade', () => {
     ThirdPartyApps.getInstance = jest
       .fn()
       .mockReturnValue(instance(mockedThirdPartyApps));
-    when(mockedThirdPartyApps.openAI).thenReturn(mockedOpenAI);
+    when(mockedThirdPartyApps.openAIInstance).thenReturn(mockedOpenAI);
     // when(mockedOpenAI.chat).thenReturn(instance(mockedChat));
     // when(mockedChat.completions).thenReturn(instance(mockedCompletions));
 

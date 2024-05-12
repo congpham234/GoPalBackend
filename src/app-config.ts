@@ -6,19 +6,22 @@ import {
 export class AppConfig {
   private static instance: AppConfig | null = null;
   private static keyValueMap = new Map<AppConfigKey, string>();
-  private initialized = false;
+  // Workaround for persisting Config across different lambda invocation
+  private static initialized: boolean;
 
   private constructor() {}
 
-  public static getInstance(): AppConfig {
-    if (!AppConfig.instance) {
+  public static async getInstance(): Promise<AppConfig> {
+    if (!AppConfig.instance || !AppConfig.initialized) {
       AppConfig.instance = new AppConfig();
+      await AppConfig.initializeAppConfig();
+      AppConfig.initialized = true;
     }
     return AppConfig.instance;
   }
 
-  public async initializeAppConfig(): Promise<void> {
-    if (this.initialized) return;
+  private static async initializeAppConfig(): Promise<void> {
+    if (AppConfig.initialized) return;
 
     const awsRegion = 'us-west-2';
     AppConfig.keyValueMap.set(AppConfigKey.AWS_REGION, awsRegion);
@@ -35,7 +38,7 @@ export class AppConfig {
         bookingDotComApiKey,
       );
       AppConfig.keyValueMap.set(AppConfigKey.OPEN_AI_API_KEY, openAiApiKey);
-      this.initialized = true;
+      AppConfig.initialized = true;
     } catch (error) {
       console.error('Error fetching API key:', error);
     }

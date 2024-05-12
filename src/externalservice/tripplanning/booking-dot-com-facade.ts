@@ -18,9 +18,10 @@ import {
 export class BookingDotComFacade {
   private readonly API_HOST = 'booking-com15.p.rapidapi.com';
 
-  private getRapidApiHeader() {
+  private async getRapidApiHeader() {
+    const appConfigInstance = await AppConfig.getInstance();
     return {
-      'X-RapidAPI-Key': AppConfig.getInstance().getValue(
+      'X-RapidAPI-Key': appConfigInstance.getValue(
         AppConfigKey.BOOKING_DOT_COM_API_KEY,
       ),
       'X-RapidAPI-Host': this.API_HOST,
@@ -29,11 +30,12 @@ export class BookingDotComFacade {
 
   /* eslint-disable */
   private async fetchFromApi(path: string, apiName: string, params: any) {
+    const headers = await this.getRapidApiHeader();
     const options = {
       method: 'GET',
       url: `https://${this.API_HOST}/api/v1${path}`,
       params,
-      headers: this.getRapidApiHeader(),
+      headers: headers,
     };
     console.log(
       `Calling ${apiName} Booking API with options: ${JSON.stringify(options)}`

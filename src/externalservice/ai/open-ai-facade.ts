@@ -9,8 +9,9 @@ export class OpenAiFacade {
     userPrompt: string,
   ): Promise<string> {
     try {
+      const appInstance = await ThirdPartyApps.getInstance();
       const completion: ChatCompletion =
-        await ThirdPartyApps.getInstance().openAI.chat.completions.create({
+        await appInstance.openAIInstance.chat.completions.create({
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt },
