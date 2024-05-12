@@ -41,6 +41,7 @@ export class BookingDotComFacade {
       headers: this.getRapidApiHeader(),
     };
 
+    console.log(`Calling Booking API searchHotels with options: ${options}`);
     const response = await axios.request(options);
     return response.data;
   }
@@ -55,6 +56,9 @@ export class BookingDotComFacade {
       headers: this.getRapidApiHeader(),
     };
 
+    console.log(
+      `Calling Booking API searchHotelDestination with options: ${options}`,
+    );
     const response = await axios.request(options);
     return response.data;
   }
@@ -68,6 +72,10 @@ export class BookingDotComFacade {
       params: input,
       headers: this.getRapidApiHeader(),
     };
+
+    console.log(
+      `Calling Booking API searchAttractionLocations with options: ${options}`,
+    );
     const response = await axios.request(options);
     return response.data;
   }
@@ -81,6 +89,10 @@ export class BookingDotComFacade {
       params: input,
       headers: this.getRapidApiHeader(),
     };
+
+    console.log(
+      `Calling Booking API searchAttractions with options: ${options}`,
+    );
     const response = await axios.request(options);
     return response.data;
   }
