@@ -16,84 +16,63 @@ import {
 
 @singleton()
 export class BookingDotComFacade {
-  private readonly BOOKING_DOT_COM_RAPIDAPI_HOST =
-    'booking-com15.p.rapidapi.com';
+  private readonly API_HOST = 'booking-com15.p.rapidapi.com';
 
-  private getRapidApiHeader(): {
-    'X-RapidAPI-Key': string
-    'X-RapidAPI-Host': string
-    } {
+  private getRapidApiHeader() {
     return {
       'X-RapidAPI-Key': AppConfig.getInstance().getValue(
         AppConfigKey.BOOKING_DOT_COM_API_KEY,
       ),
-      'X-RapidAPI-Host': this.BOOKING_DOT_COM_RAPIDAPI_HOST,
+      'X-RapidAPI-Host': this.API_HOST,
     };
   }
 
-  public async searchHotels(
-    input: SearchHotelsInput,
-  ): Promise<SearchHotelsOutput> {
+  /* eslint-disable */
+  private async fetchFromApi(url: string, apiName: string, params: any) {
     const options = {
       method: 'GET',
-      url: 'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels',
-      params: input,
+      url: `https://${this.API_HOST}/api/v1${url}`,
+      params,
       headers: this.getRapidApiHeader(),
-    };
-
-    console.log(`Calling Booking API searchHotels with options: ${options}`);
-    const response = await axios.request(options);
-    return response.data;
+    }
+    console.log(
+      `Calling ${apiName} Booking API with options: ${JSON.stringify(options)}`
+    )
+    const response = await axios.request(options)
+    return response.data
   }
 
-  public async searchHotelDestination(
-    input: SearchHotelDestinationInput,
+  public searchHotels(input: SearchHotelsInput): Promise<SearchHotelsOutput> {
+    return this.fetchFromApi('/hotels/searchHotels', 'searchHotels', input)
+  }
+
+  public searchHotelDestination(
+    input: SearchHotelDestinationInput
   ): Promise<SearchHotelDestinationOutput> {
-    const options = {
-      method: 'GET',
-      url: 'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination',
-      params: input,
-      headers: this.getRapidApiHeader(),
-    };
-
-    console.log(
-      `Calling Booking API searchHotelDestination with options: ${options}`,
-    );
-    const response = await axios.request(options);
-    return response.data;
+    return this.fetchFromApi(
+      '/hotels/searchDestination',
+      'searchHotelDestination',
+      input
+    )
   }
 
-  public async searchAttractionLocations(
-    input: SearchAttractionLocationInput,
+  public searchAttractionLocations(
+    input: SearchAttractionLocationInput
   ): Promise<SearchAttractionLocationOutput> {
-    const options = {
-      method: 'GET',
-      url: 'https://booking-com15.p.rapidapi.com/api/v1/attraction/searchLocation',
-      params: input,
-      headers: this.getRapidApiHeader(),
-    };
-
-    console.log(
-      `Calling Booking API searchAttractionLocations with options: ${options}`,
-    );
-    const response = await axios.request(options);
-    return response.data;
+    return this.fetchFromApi(
+      '/attraction/searchLocation',
+      'searchAttractionLocations',
+      input
+    )
   }
 
-  public async searchAttractions(
-    input: SearchAttractionInput,
+  public searchAttractions(
+    input: SearchAttractionInput
   ): Promise<SearchAttractionOutput> {
-    const options = {
-      method: 'GET',
-      url: 'https://booking-com15.p.rapidapi.com/api/v1/attraction/searchAttractions',
-      params: input,
-      headers: this.getRapidApiHeader(),
-    };
-
-    console.log(
-      `Calling Booking API searchAttractions with options: ${options}`,
-    );
-    const response = await axios.request(options);
-    return response.data;
+    return this.fetchFromApi(
+      '/attraction/searchAttractions',
+      'searchAttractions',
+      input
+    )
   }
 }
