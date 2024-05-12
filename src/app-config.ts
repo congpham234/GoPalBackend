@@ -5,7 +5,7 @@ import {
 
 export class AppConfig {
   private static instance: AppConfig | null = null;
-  private keyValueMap = new Map<AppConfigKey, string>();
+  private static keyValueMap = new Map<AppConfigKey, string>();
   private initialized = false;
 
   private constructor() {}
@@ -21,7 +21,7 @@ export class AppConfig {
     if (this.initialized) return;
 
     const awsRegion = 'us-west-2';
-    this.keyValueMap.set(AppConfigKey.AWS_REGION, awsRegion);
+    AppConfig.keyValueMap.set(AppConfigKey.AWS_REGION, awsRegion);
 
     try {
       const bookingDotComApiKey = await getSecret(
@@ -30,11 +30,11 @@ export class AppConfig {
       );
       const openAiApiKey = await getSecret('OpenAiAPIKeyId', awsRegion);
 
-      this.keyValueMap.set(
+      AppConfig.keyValueMap.set(
         AppConfigKey.BOOKING_DOT_COM_API_KEY,
         bookingDotComApiKey,
       );
-      this.keyValueMap.set(AppConfigKey.OPEN_AI_API_KEY, openAiApiKey);
+      AppConfig.keyValueMap.set(AppConfigKey.OPEN_AI_API_KEY, openAiApiKey);
       this.initialized = true;
     } catch (error) {
       console.error('Error fetching API key:', error);
@@ -42,7 +42,7 @@ export class AppConfig {
   }
 
   public getValue(key: AppConfigKey): string {
-    return this.keyValueMap.get(key) ?? '';
+    return AppConfig.keyValueMap.get(key) ?? '';
   }
 }
 
