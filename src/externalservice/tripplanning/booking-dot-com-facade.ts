@@ -28,22 +28,22 @@ export class BookingDotComFacade {
   }
 
   /* eslint-disable */
-  private async fetchFromApi(url: string, apiName: string, params: any) {
+  private async fetchFromApi(path: string, apiName: string, params: any) {
     const options = {
       method: 'GET',
-      url: `https://${this.API_HOST}/api/v1${url}`,
+      url: `https://${this.API_HOST}/api/v1${path}`,
       params,
       headers: this.getRapidApiHeader(),
-    }
+    };
     console.log(
       `Calling ${apiName} Booking API with options: ${JSON.stringify(options)}`
-    )
-    const response = await axios.request(options)
-    return response.data
+    );
+    const response = await axios.request(options);
+    return response.data;
   }
 
   public searchHotels(input: SearchHotelsInput): Promise<SearchHotelsOutput> {
-    return this.fetchFromApi('/hotels/searchHotels', 'searchHotels', input)
+    return this.fetchFromApi('/hotels/searchHotels', 'searchHotels', input);
   }
 
   public searchHotelDestination(
@@ -53,7 +53,7 @@ export class BookingDotComFacade {
       '/hotels/searchDestination',
       'searchHotelDestination',
       input
-    )
+    );
   }
 
   public searchAttractionLocations(
@@ -63,7 +63,7 @@ export class BookingDotComFacade {
       '/attraction/searchLocation',
       'searchAttractionLocations',
       input
-    )
+    );
   }
 
   public searchAttractions(
