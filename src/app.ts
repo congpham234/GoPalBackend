@@ -10,6 +10,7 @@ import bodyParser from 'body-parser';
 import { AppConfig } from './app-config';
 import { ThirdPartyApps } from './third-party-apps';
 import cors from 'cors';
+import { ALLOW_ORIGIN_STAGE_MAP, Stage } from './utils/constants';
 
 const app: Express = express();
 let server: Server | null = null;
@@ -20,15 +21,23 @@ const swaggerOptions = swaggerJSDoc({
   apis: ['./src/routes/**/*.ts'],
 });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOptions));
+
 /** ------------------*/
-const corsOptions = {
-  origin: true,
+// Retrieve the current stage from the environment variables
+const currentStage = process.env.STAGE ?? Stage.ALPHA;
+
+// Get the allowed origins based on the current stage
+const allowedOrigins = ALLOW_ORIGIN_STAGE_MAP.get(currentStage);
+
+const corsOptions: cors.CorsOptions = {
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['*'],
 };
 
 app.use(cors(corsOptions));
 
+/** ------------------*/
 app.use(errorHandler);
 
 // parse application/x-www-form-urlencoded
