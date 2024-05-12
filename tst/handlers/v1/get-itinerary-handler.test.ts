@@ -109,7 +109,8 @@ describe('GetItineraryHandler', () => {
       ),
     ).thenResolve(mockedPlanTripOutput);
 
-    const response: GetItineraryResponseContent = await handler.process(request);
+    const response: GetItineraryResponseContent =
+      await handler.process(request);
 
     expect(response.placesToStay).toEqual([
       {

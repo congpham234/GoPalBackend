@@ -15,7 +15,9 @@ const searchDestination = (router: Router): void => {
         if (typeof query !== 'string' || query.trim() === '') {
           res
             .status(400)
-            .send('Query parameter is required and must be a non-empty string.');
+            .send(
+              'Query parameter is required and must be a non-empty string.',
+            );
           return;
         }
         const searchResult = await handler.process(query);

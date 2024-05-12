@@ -8,10 +8,10 @@ const errorHandler = (
   next: NextFunction
 ) => {
   // dump error to console for debug
-  console.error(err)
+  console.error(err);
   res
     .status(err.status || 500)
-    .send({ message: err.message || 'Internal Server Error' })
-}
+    .send({ message: err.message || 'Internal Server Error' });
+};
 
-export default errorHandler
+export default errorHandler;
