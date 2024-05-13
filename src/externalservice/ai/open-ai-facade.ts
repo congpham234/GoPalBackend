@@ -1,17 +1,19 @@
-import { singleton } from 'tsyringe';
+import { inject, singleton } from 'tsyringe';
 import { ThirdPartyApps } from '../../third-party-apps';
 import { ChatCompletion } from 'openai/resources';
 
 @singleton()
 export class OpenAiFacade {
+  constructor(@inject(ThirdPartyApps) private thirdPartyApps: ThirdPartyApps) {}
+
   public async answer(
     systemPrompt: string,
     userPrompt: string,
   ): Promise<string> {
     try {
-      const appInstance = await ThirdPartyApps.getInstance();
+      const openAIClient = await this.thirdPartyApps.getOpenAI();
       const completion: ChatCompletion =
-        await appInstance.openAIInstance.chat.completions.create({
+        await openAIClient.chat.completions.create({
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt },

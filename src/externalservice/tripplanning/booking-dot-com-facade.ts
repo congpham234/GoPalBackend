@@ -1,4 +1,4 @@
-import { singleton } from 'tsyringe';
+import { inject, singleton } from 'tsyringe';
 import axios from 'axios';
 import {
   SearchAttractionInput,
@@ -16,12 +16,13 @@ import {
 
 @singleton()
 export class BookingDotComFacade {
+  constructor(@inject(AppConfig) private appConfig: AppConfig) {}
+
   private readonly API_HOST = 'booking-com15.p.rapidapi.com';
 
   private async getRapidApiHeader() {
-    const appConfigInstance = await AppConfig.getInstance();
     return {
-      'X-RapidAPI-Key': appConfigInstance.getValue(
+      'X-RapidAPI-Key': await this.appConfig.getValue(
         AppConfigKey.BOOKING_DOT_COM_API_KEY,
       ),
       'X-RapidAPI-Host': this.API_HOST,

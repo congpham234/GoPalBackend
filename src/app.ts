@@ -7,8 +7,6 @@ import createRouter from './router';
 import errorHandler from './middlewares/error-handler';
 import { readFileSync } from 'fs';
 import bodyParser from 'body-parser';
-import { AppConfig } from './app-config';
-import { ThirdPartyApps } from './third-party-apps';
 import cors from 'cors';
 import { ALLOW_ORIGIN_STAGE_MAP, Stage } from './utils/constants';
 
@@ -45,14 +43,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-export const startServer = async () => {
+export const startServer = () => {
   if (process.env.ENVIRONMENT !== 'lambda') {
     const port: number = Number(process.env.PORT) || 3001;
 
     try {
-      await AppConfig.getInstance();
-      await ThirdPartyApps.getInstance();
-
       server = app.listen(port, () => {
         console.log('Server is listening to port: ' + port);
       });
