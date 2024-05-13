@@ -26,6 +26,7 @@ export class BookingDotComFacade {
         AppConfigKey.BOOKING_DOT_COM_API_KEY,
       ),
       'X-RapidAPI-Host': this.API_HOST,
+      'Accept-Encoding': 'gzip, deflate',
     };
   }
 

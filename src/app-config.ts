@@ -54,5 +54,6 @@ async function getSecret(
 export enum AppConfigKey {
   BOOKING_DOT_COM_API_KEY = 'BookingDotComAPIKey',
   OPEN_AI_API_KEY = 'OpenAiAPIKeyId',
+  GOOGLE_PLACES_API_KEY = 'GooglePlacesAPIKey',
   AWS_REGION = 'AWS_REGION',
 }
