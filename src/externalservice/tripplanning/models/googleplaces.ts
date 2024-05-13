@@ -18,8 +18,8 @@ export interface SearchPlaceWithPhotoOutput {
 
 export interface SearchPhotoInput {
   name: string;
-  maxWidthPx: string;
-  maxHeightPx: string;
+  maxWidthPx: number;
+  maxHeightPx: number;
 }
 
 export interface SearchPhotoOutput {
@@ -28,8 +28,8 @@ export interface SearchPhotoOutput {
 
 export interface PlacePhoto {
   name: string;
-  widthPx: string;
-  heightPx: string;
+  widthPx: number;
+  heightPx: number;
 }
 
 export interface DisplayName {
@@ -51,10 +51,10 @@ export interface Place {
   formattedAddress: string;
   location: Location;
   googleMapsUri: string;
-  websiteUri: string;
   displayName: DisplayName;
   photos: PlacePhoto[];
-  goodForChildren: boolean;
-  allowsDogs: boolean;
   accessibilityOptions: AccessibilityOptions;
+  goodForChildren?: boolean;
+  allowsDogs?: boolean;
+  websiteUri?: string;
 }

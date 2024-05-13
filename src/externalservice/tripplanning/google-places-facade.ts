@@ -69,8 +69,8 @@ export class GooglePlacesFacade {
     const firstPhoto = place.photos[0];
     const photoDetails = await this.searchPhoto({
       name: firstPhoto.name,
-      maxWidthPx: firstPhoto.widthPx,
-      maxHeightPx: firstPhoto.heightPx,
+      maxWidthPx: Math.min(4800, firstPhoto.widthPx),
+      maxHeightPx: Math.min(4800, firstPhoto.heightPx),
     });
 
     return {

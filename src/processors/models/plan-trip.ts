@@ -18,11 +18,15 @@ export interface Activity {
   activityName: string;
   location: string;
   description: string;
-  googleMapsUri: string;
-  formattedAddress: string;
-  photoUri: string;
-  latitude: number;
-  longitude: number;
+  detail?: ActivityDetail;
+}
+
+export interface ActivityDetail {
+  googleMapsUri?: string;
+  formattedAddress?: string;
+  photoUri?: string;
+  latitude?: number;
+  longitude?: number;
   goodForChildren?: boolean;
   allowsDogs?: boolean;
   wheelchairAccessibleParking?: boolean;

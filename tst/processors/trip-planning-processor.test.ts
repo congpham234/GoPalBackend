@@ -1,75 +1,138 @@
 import { TripPlanningProcessor } from '../../src/processors/trip-planning-processor';
-import { mock, instance, when, verify, anyString } from 'ts-mockito';
+import { mock, instance, when, verify, anyString, deepEqual } from 'ts-mockito';
 import { OpenAiFacade } from '../../src/externalservice/ai/open-ai-facade';
 import { PlanTripInput } from '../../src/processors/models/plan-trip';
+import { GooglePlacesFacade } from '../../src/externalservice/tripplanning/google-places-facade';
+import { SearchPlaceWithPhotoOutput } from '../../src/externalservice/tripplanning/models/googleplaces';
 
 describe('TripPlanningProcessor', () => {
-  let mockedOpenAiFacade: OpenAiFacade;
   let tripPlanningProcessor: TripPlanningProcessor;
+  let mockOpenAiFacade: OpenAiFacade;
+  let mockGooglePlacesFacade: GooglePlacesFacade;
+  let consoleErrorMock: jest.SpyInstance;
 
   beforeEach(() => {
-    // Create a mock instance of OpenAiFacade
-    mockedOpenAiFacade = mock(OpenAiFacade);
-    // Create an instance of TripPlanningProcessor with the mocked OpenAiFacade
+    mockOpenAiFacade = mock(OpenAiFacade);
+    mockGooglePlacesFacade = mock(GooglePlacesFacade);
     tripPlanningProcessor = new TripPlanningProcessor(
-      instance(mockedOpenAiFacade),
+      instance(mockOpenAiFacade),
+      instance(mockGooglePlacesFacade),
+    );
+
+    consoleErrorMock = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Restore the original implementation so that it does not affect other tests
+    consoleErrorMock.mockRestore();
+  });
+
+  it('should call OpenAiFacade with correct prompts and parse the JSON response', async () => {
+    const input: PlanTripInput = {
+      numOfDays: 3,
+      query: 'Tokyo',
+      country: 'Japan',
+    };
+    const fakeResponse = JSON.stringify({
+      itinerary: [],
+    });
+    when(
+      mockOpenAiFacade.answer(
+        'You only return the JSON response with the exact given format ' +
+          tripPlanningProcessor['buildJsonPrompt'](),
+        'Can you help me plan a 3 days trip at Tokyo, Japan?',
+      ),
+    ).thenResolve(fakeResponse);
+
+    const result = await tripPlanningProcessor.planTrip(input);
+
+    verify(mockOpenAiFacade.answer(anyString(), anyString())).once();
+    expect(result).toEqual({ itinerary: [] });
+  });
+
+  it('should handle JSON parsing errors', async () => {
+    const input: PlanTripInput = {
+      numOfDays: 3,
+      query: 'Tokyo',
+      country: 'Japan',
+    };
+    when(mockOpenAiFacade.answer(anyString(), anyString())).thenResolve(
+      'invalid json',
+    );
+
+    await expect(tripPlanningProcessor.planTrip(input)).rejects.toThrow(
+      'Failed to parse trip planning response',
     );
   });
 
-  it('should return a valid trip plan based on the OpenAI response', async () => {
-    // Given
+  it('should update activities with details from GooglePlacesFacade', async () => {
     const input: PlanTripInput = {
       numOfDays: 3,
-      query: 'Paris',
-      country: 'France',
+      query: 'Tokyo',
+      country: 'Japan',
     };
-    const mockAnswer = JSON.stringify({
+    const fakeResponse = JSON.stringify({
       itinerary: [
         {
           dayNumber: 1,
-          activities: [
-            {
-              activityName: 'Visit Louvre Museum',
-              location: 'Louvre Museum',
-              description:
-                'Explore the world\'s largest art museum and a historic monument in Paris.',
-            },
-          ],
+          activities: [{ location: 'Shinjuku Gyoen' }],
         },
       ],
     });
-
+    const expectedPlaceDetails: SearchPlaceWithPhotoOutput = {
+      place: {
+        googleMapsUri: 'http://maps.google.com/example',
+        formattedAddress: 'Shinjuku, Tokyo, Japan',
+        location: { latitude: 35.6895, longitude: 139.6917 },
+        goodForChildren: true,
+        allowsDogs: false,
+        displayName: {
+          text: 'Dummy display name',
+          languageCode: 'en',
+        },
+        photos: [],
+        accessibilityOptions: {
+          wheelchairAccessibleParking: true,
+          wheelchairAccessibleEntrance: false,
+        },
+        websiteUri: 'http://example.com',
+      },
+      photoUri: 'http://example.com/photo.jpg',
+    };
+    when(mockOpenAiFacade.answer(anyString(), anyString())).thenResolve(
+      fakeResponse,
+    );
     when(
-      mockedOpenAiFacade.answer(
-        `You only return the JSON response with the exact given format ${JSON.stringify(
-          {
-            itinerary: [
-              {
-                dayNumber:
-                  'the type is number and it is unique in the list, each day should have at least 3 to 5 activities',
-                activities: [
-                  {
-                    activityName:
-                      'the name of the activity, for example "Exploring Stanley Park"',
-                    location: 'the location name for example "Stanley Park"',
-                    description:
-                      'a few sentences about this location or activity',
-                  },
-                ],
-              },
-            ],
-          },
-        )}`,
-        `Can you help me plan a ${input.numOfDays} days trip at ${input.query}, ${input.country}?`,
+      mockGooglePlacesFacade.searchPlaceWithPhoto(
+        deepEqual({
+          textQuery: 'Shinjuku Gyoen',
+        }),
       ),
-    ).thenResolve(mockAnswer);
+    ).thenResolve(expectedPlaceDetails);
 
-    // When
     const result = await tripPlanningProcessor.planTrip(input);
 
-    // Then
-    expect(result).toEqual(JSON.parse(mockAnswer));
-    verify(mockedOpenAiFacade.answer(anyString(), anyString())).once();
+    verify(
+      mockGooglePlacesFacade.searchPlaceWithPhoto(
+        deepEqual({
+          textQuery: 'Shinjuku Gyoen',
+        }),
+      ),
+    ).once();
+
+    expect(result.itinerary[0].activities[0].detail).toEqual({
+      googleMapsUri: 'http://maps.google.com/example',
+      formattedAddress: 'Shinjuku, Tokyo, Japan',
+      latitude: 35.6895,
+      longitude: 139.6917,
+      goodForChildren: true,
+      allowsDogs: false,
+      wheelchairAccessibleParking: true,
+      wheelchairAccessibleEntrance: false,
+      websiteUri: 'http://example.com',
+      photoUri: 'http://example.com/photo.jpg',
+    });
   });
-  // Additional test cases to handle errors, invalid input, etc.
 });

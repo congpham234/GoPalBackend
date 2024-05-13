@@ -136,11 +136,40 @@
           "description": {
             "type": "string"
           },
-          "locationImageUrl": {
-            "type": "string"
+          "detail": {
+            "$ref": "#/components/schemas/ActivityDetail"
           }
         },
         "required": ["activityName", "description", "location"]
+      },
+      "ActivityDetail": {
+        "type": "object",
+        "properties": {
+          "photoUri": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "goodForChildren": {
+            "type": "boolean"
+          },
+          "allowsDogs": {
+            "type": "boolean"
+          },
+          "wheelchairAccessibleParking": {
+            "type": "boolean"
+          },
+          "wheelchairAccessibleEntrance": {
+            "type": "boolean"
+          },
+          "websiteUri": {
+            "type": "string"
+          }
+        }
       },
       "Day": {
         "type": "object",
