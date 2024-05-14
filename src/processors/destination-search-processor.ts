@@ -17,12 +17,16 @@ import {
   SearchDestinationsOutput,
 } from './models/destinations';
 import { mapExternalDestinationToDestination } from '../utils/mapping';
+import { GooglePlacesFacade } from '../externalservice/tripplanning/google-places-facade';
 
 @singleton()
 export class DestinationSearchProcessor {
+  private readonly HOTEL_LIMIT: number = 9;
+
   constructor(
     @inject(BookingDotComFacade)
     private bookingDotComFacade: BookingDotComFacade,
+    @inject(GooglePlacesFacade) private googlePlacesFacade: GooglePlacesFacade,
   ) {}
 
   public async searchDestinations(
@@ -53,21 +57,31 @@ export class DestinationSearchProcessor {
           adults: input.numOfPeople.toString(),
         });
 
-      // Limit the results to 5 hotels.
+      // Limit the results to 9 hotels.
       // TODO: think of a way to cache this
       const limitedHotels: ExternalHotel[] = hotelsOutput.data.hotels.slice(
         0,
-        5,
+        this.HOTEL_LIMIT,
       );
 
-      // Properly initialize the hotels array with type Hotel[]
+      const hotelImageUrls: string[] = await Promise.all(
+        limitedHotels.map(async (hotel) => {
+          const hotelResultFromGoogle =
+            await this.googlePlacesFacade.searchPlaceWithPhoto({
+              textQuery: `hotel name ${hotel.property.name} in ${input.label}`,
+            });
+          return hotelResultFromGoogle.photoUri;
+        }),
+      );
+
       const hotels: Hotel[] = [];
-
       // Use forEach to iterate over limitedHotels of type ExternalHotel[]
-      limitedHotels.forEach((externalHotel: ExternalHotel) => {
-        hotels.push(this.mapToHotel(externalHotel));
+      limitedHotels.forEach((externalHotel, index) => {
+        const hotelImageUrl = hotelImageUrls[index];
+        if (hotelImageUrl) {
+          hotels.push(this.mapToHotel(externalHotel, hotelImageUrl));
+        }
       });
-
       return {
         hotels,
       };
@@ -78,7 +92,7 @@ export class DestinationSearchProcessor {
     }
   }
 
-  private mapToHotel(input: ExternalHotel): Hotel {
+  private mapToHotel(input: ExternalHotel, imageUrl: string): Hotel {
     return {
       name: input.property.name,
       reviewCount: input.property.reviewCount,
@@ -86,6 +100,7 @@ export class DestinationSearchProcessor {
       countryCode: input.property.countryCode,
       price: input.property.priceBreakdown.grossPrice,
       photoUrls: input.property.photoUrls,
+      mainPhotoUrl: imageUrl,
     };
   }
 }

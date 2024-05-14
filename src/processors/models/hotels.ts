@@ -4,6 +4,8 @@ export interface SearchDestinationHotelsInput {
   startDate: string;
   endDate: string;
   numOfPeople: string;
+  /* example of a label: Kyoto Station, Kyoto, Japan */
+  label: string;
 }
 
 export interface SearchDestinationHotelsOutput {
@@ -20,4 +22,5 @@ export interface Hotel {
     value: number;
   };
   photoUrls: string[];
+  mainPhotoUrl: string;
 }

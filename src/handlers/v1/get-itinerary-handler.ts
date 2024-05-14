@@ -39,6 +39,7 @@ export class GetItineraryHandler {
         startDate: request.startDate,
         endDate: request.endDate,
         numOfPeople: request.numOfPeople.toString(),
+        label: request.destination.label,
       });
 
     // TODO: Add Validation for searchDestinationHotelsOutput
