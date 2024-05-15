@@ -4,6 +4,12 @@ import { Destination } from '../processors/models/destinations';
 export function mapExternalDestinationToDestination(
   externalDest: ExternalDestination,
 ): Destination {
+  let imageUrl = externalDest.image_url;
+
+  if (imageUrl.includes('/150x150/')) {
+    imageUrl = imageUrl.replace('/150x150/', '/1000x1000/');
+  }
+
   return {
     destId: externalDest.dest_id,
     destType: externalDest.dest_type,
@@ -12,6 +18,6 @@ export function mapExternalDestinationToDestination(
     region: externalDest.region,
     name: externalDest.name,
     country: externalDest.country,
-    imageUrl: externalDest.image_url,
+    imageUrl: imageUrl,
   };
 }
