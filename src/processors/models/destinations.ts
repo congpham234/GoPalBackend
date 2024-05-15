@@ -14,5 +14,8 @@ export interface Destination {
   region: string;
   name: string;
   country: string;
-  imageUrl: string;
+  imageUrl: {
+    url150px: string;
+    url1000px: string;
+  };
 }

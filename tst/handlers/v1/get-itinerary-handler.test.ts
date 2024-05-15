@@ -50,7 +50,10 @@ describe('GetItineraryHandler', () => {
         name: 'ExampleCity',
         country: 'ExampleCountry',
         label: 'label',
-        imageUrl: 'imageUrl',
+        imageUrl: {
+          url150px: 'imageUrl',
+          url1000px: 'imageUrl',
+        },
       },
     };
 
