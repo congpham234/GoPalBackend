@@ -21,16 +21,16 @@ export class GetItineraryHandler {
     @inject(TripPlanningProcessor)
     private tripPlanningProcessor: TripPlanningProcessor,
     @inject(DestinationSearchProcessor)
-    private destinationSearchProcessor: DestinationSearchProcessor,
+    private destinationSearchProcessor: DestinationSearchProcessor
   ) {}
 
   public async process(
-    request: GetItineraryRequestContent,
+    request: GetItineraryRequestContent
   ): Promise<GetItineraryResponseContent> {
     // TODO: Add DATE validation here;
     const totalDays = calculateDaysBetweenDates(
       request.startDate,
-      request.endDate,
+      request.endDate
     );
 
     const searchDestinationHotelsOutput: SearchDestinationHotelsOutput =
@@ -50,6 +50,8 @@ export class GetItineraryHandler {
 
     // TODO: Add Validation for searchDestinationHotelsOutput
     // Temporary commented out the Trip Suggestion
+    // tests of this file also were removed
+    
     // const planTripOutput: PlanTripOutput =
     //   await this.tripPlanningProcessor.planTrip({
     //     query: request.destination.name,

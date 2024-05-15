@@ -19,7 +19,7 @@ function setupMocks() {
   const mockedDestinationSearchProcessor = mock(DestinationSearchProcessor);
   const handler = new GetItineraryHandler(
     instance(mockedTripPlanningProcessor),
-    instance(mockedDestinationSearchProcessor),
+    instance(mockedDestinationSearchProcessor)
   );
   return {
     mockedTripPlanningProcessor,
