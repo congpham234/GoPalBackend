@@ -79,13 +79,23 @@ export class DestinationSearchProcessor {
   }
 
   private mapToHotel(input: ExternalHotel): Hotel {
+    const photoUrls = [];
+    for (const url of input.property.photoUrls) {
+      const resizedPhoto = this.resize1024x768(url);
+      photoUrls.push(resizedPhoto);
+    }
+
     return {
       name: input.property.name,
       reviewCount: input.property.reviewCount,
       reviewScore: input.property.reviewScore,
       countryCode: input.property.countryCode,
       price: input.property.priceBreakdown.grossPrice,
-      photoUrls: input.property.photoUrls,
+      photoUrls: photoUrls,
     };
+  }
+
+  private resize1024x768(url: string) {
+    return url.replace(/\/[^/]+\/(\d+\.jpg)/, '/max1024x768/$1');
   }
 }

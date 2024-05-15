@@ -123,7 +123,7 @@ describe('GetItineraryHandler', () => {
         reviewCount: 150,
         suggestedPrice: 120,
         currency: 'USD',
-        photoUrl: 'http://example.com/photo.jpg',
+        imageUrl1024x768: 'http://example.com/photo.jpg',
       },
     ]);
 

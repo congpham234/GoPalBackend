@@ -78,7 +78,7 @@ export class GetItineraryHandler {
       reviewCount: input.reviewCount,
       suggestedPrice: input.price.value,
       currency: input.price.currency,
-      photoUrl: input.photoUrls.at(0),
+      imageUrl1024x768: input.photoUrls.at(0),
     };
   }
 }
