@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   GetItineraryRequestContent,
   GetItineraryResponseContent,
@@ -41,25 +42,26 @@ export class GetItineraryHandler {
         numOfPeople: request.numOfPeople.toString(),
       });
 
-    // TODO: Add Validation for searchDestinationHotelsOutput
-    const planTripOutput: PlanTripOutput =
-      await this.tripPlanningProcessor.planTrip({
-        query: request.destination.name,
-        country: request.destination.country,
-        numOfDays: totalDays,
-      });
-
     const placesToStay: PlaceToStay[] = [];
 
     searchDestinationHotelsOutput.hotels.forEach((hotel: Hotel) => {
       placesToStay.push(this.mapHotelToPlaceToStay(hotel));
     });
 
+    // TODO: Add Validation for searchDestinationHotelsOutput
+    // Temporary commented out the Trip Suggestion
+    // const planTripOutput: PlanTripOutput =
+    //   await this.tripPlanningProcessor.planTrip({
+    //     query: request.destination.name,
+    //     country: request.destination.country,
+    //     numOfDays: totalDays,
+    //   });
+
     const planningDays: PlanningDay[] = [];
 
-    planTripOutput.itinerary.forEach((day: Day) => {
-      planningDays.push(this.mapDayToPlanningDay(day));
-    });
+    // planTripOutput.itinerary.forEach((day: Day) => {
+    //   planningDays.push(this.mapDayToPlanningDay(day));
+    // });
 
     return {
       placesToStay,
