@@ -1,360 +1,344 @@
 {
   "openapi": "3.1.0",
   "info": {
-      "title": "GoPal API Model",
-      "version": "2024-05-01",
-      "description": "Provides GoPal API Model"
+    "title": "GoPal API Model",
+    "version": "2024-05-01",
+    "description": "Provides GoPal API Model"
   },
   "paths": {
-      "/v1/get-beer": {
-          "get": {
-              "description": "This is a health check api",
-              "operationId": "GetBeer",
-              "responses": {
-                  "200": {
-                      "description": "GetBeer 200 response",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/GetBeerResponseContent"
-                              }
-                          }
-                      }
-                  }
+    "/v1/get-beer": {
+      "get": {
+        "description": "This is a health check api",
+        "operationId": "GetBeer",
+        "responses": {
+          "200": {
+            "description": "GetBeer 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBeerResponseContent"
+                }
               }
+            }
           }
-      },
-      "/v1/get-itinerary": {
-          "post": {
-              "description": "This API returns an AI generated trip planning from input",
-              "operationId": "GetItinerary",
-              "requestBody": {
-                  "content": {
-                      "application/json": {
-                          "schema": {
-                              "$ref": "#/components/schemas/GetItineraryRequestContent"
-                          }
-                      }
-                  },
-                  "required": true
-              },
-              "responses": {
-                  "200": {
-                      "description": "GetItinerary 200 response",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/GetItineraryResponseContent"
-                              }
-                          }
-                      }
-                  },
-                  "404": {
-                      "description": "NotFoundException 404 response",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/NotFoundExceptionResponseContent"
-                              }
-                          }
-                      }
-                  },
-                  "501": {
-                      "description": "TerminalException 501 response",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/TerminalExceptionResponseContent"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      },
-      "/v1/search-destination": {
-          "get": {
-              "description": "This is to return search destination",
-              "operationId": "SearchDestination",
-              "parameters": [
-                  {
-                      "name": "query",
-                      "in": "query",
-                      "description": "Names of locations, cities, districts, places, countries, counties etc.",
-                      "schema": {
-                          "type": "string",
-                          "description": "Names of locations, cities, districts, places, countries, counties etc."
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "SearchDestination 200 response",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/SearchDestinationResponseContent"
-                              }
-                          }
-                      }
-                  },
-                  "404": {
-                      "description": "NotFoundException 404 response",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/NotFoundExceptionResponseContent"
-                              }
-                          }
-                      }
-                  },
-                  "501": {
-                      "description": "TerminalException 501 response",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/TerminalExceptionResponseContent"
-                              }
-                          }
-                      }
-                  }
-              }
-          }
+        }
       }
+    },
+    "/v1/get-itinerary": {
+      "post": {
+        "description": "This API returns an AI generated trip planning from input",
+        "operationId": "GetItinerary",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetItineraryRequestContent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "GetItinerary 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetItineraryResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFoundException 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "TerminalException 501 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TerminalExceptionResponseContent"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/search-destination": {
+      "get": {
+        "description": "This is to return search destination",
+        "operationId": "SearchDestination",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Names of locations, cities, districts, places, countries, counties etc.",
+            "schema": {
+              "type": "string",
+              "description": "Names of locations, cities, districts, places, countries, counties etc."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SearchDestination 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchDestinationResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFoundException 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundExceptionResponseContent"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "TerminalException 501 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TerminalExceptionResponseContent"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "components": {
-      "schemas": {
-          "Activity": {
-              "type": "object",
-              "properties": {
-                  "activityName": {
-                      "type": "string"
-                  },
-                  "location": {
-                      "type": "string"
-                  },
-                  "description": {
-                      "type": "string"
-                  },
-                  "detail": {
-                      "$ref": "#/components/schemas/ActivityDetail"
-                  }
-              },
-              "required": [
-                  "activityName",
-                  "description",
-                  "location"
-              ]
+    "schemas": {
+      "Activity": {
+        "type": "object",
+        "properties": {
+          "activityName": {
+            "type": "string"
           },
-          "ActivityDetail": {
-              "type": "object",
-              "properties": {
-                  "photoUri": {
-                      "type": "string"
-                  },
-                  "latitude": {
-                      "type": "number"
-                  },
-                  "longitude": {
-                      "type": "number"
-                  },
-                  "goodForChildren": {
-                      "type": "boolean"
-                  },
-                  "allowsDogs": {
-                      "type": "boolean"
-                  },
-                  "wheelchairAccessibleParking": {
-                      "type": "boolean"
-                  },
-                  "wheelchairAccessibleEntrance": {
-                      "type": "boolean"
-                  },
-                  "websiteUri": {
-                      "type": "string"
-                  }
-              }
+          "location": {
+            "type": "string"
           },
-          "Day": {
-              "type": "object",
-              "properties": {
-                  "dayNumber": {
-                      "type": "number"
-                  },
-                  "activities": {
-                      "type": "array",
-                      "items": {
-                          "$ref": "#/components/schemas/Activity"
-                      }
-                  }
-              },
-              "required": [
-                  "activities",
-                  "dayNumber"
-              ]
+          "description": {
+            "type": "string"
           },
-          "Destination": {
-              "type": "object",
-              "properties": {
-                  "name": {
-                      "type": "string"
-                  },
-                  "destId": {
-                      "type": "string"
-                  },
-                  "destType": {
-                      "type": "string"
-                  },
-                  "label": {
-                      "type": "string"
-                  },
-                  "country": {
-                      "type": "string"
-                  },
-                  "imageUrl": {
-                      "$ref": "#/components/schemas/ImageUrl"
-                  },
-                  "region": {
-                      "type": "string"
-                  },
-                  "cityName": {
-                      "type": "string"
-                  }
-              },
-              "required": [
-                  "country",
-                  "destId",
-                  "destType",
-                  "imageUrl",
-                  "label",
-                  "name"
-              ]
-          },
-          "GetBeerResponseContent": {
-              "type": "object",
-              "properties": {
-                  "beer": {
-                      "type": "string"
-                  }
-              }
-          },
-          "GetItineraryRequestContent": {
-              "type": "object",
-              "properties": {
-                  "destination": {
-                      "$ref": "#/components/schemas/Destination"
-                  },
-                  "startDate": {
-                      "type": "string",
-                      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
-                  },
-                  "endDate": {
-                      "type": "string",
-                      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
-                  },
-                  "numOfPeople": {
-                      "type": "number"
-                  }
-              },
-              "required": [
-                  "destination",
-                  "endDate",
-                  "numOfPeople",
-                  "startDate"
-              ]
-          },
-          "GetItineraryResponseContent": {
-              "type": "object",
-              "properties": {
-                  "placesToStay": {
-                      "type": "array",
-                      "items": {
-                          "$ref": "#/components/schemas/PlaceToStay"
-                      }
-                  },
-                  "planningDays": {
-                      "type": "array",
-                      "items": {
-                          "$ref": "#/components/schemas/Day"
-                      }
-                  }
-              },
-              "required": [
-                  "planningDays"
-              ]
-          },
-          "ImageUrl": {
-              "type": "object",
-              "properties": {
-                  "url150px": {
-                      "type": "string"
-                  },
-                  "url1000px": {
-                      "type": "string"
-                  }
-              }
-          },
-          "NotFoundExceptionResponseContent": {
-              "type": "object",
-              "description": "This exception is thrown when a requested resource does not exist.",
-              "properties": {
-                  "message": {
-                      "type": "string"
-                  }
-              }
-          },
-          "PlaceToStay": {
-              "type": "object",
-              "properties": {
-                  "name": {
-                      "type": "string"
-                  },
-                  "reviewScore": {
-                      "type": "number",
-                      "maximum": 10,
-                      "minimum": 1,
-                      "format": "float"
-                  },
-                  "reviewCount": {
-                      "type": "number"
-                  },
-                  "suggestedPrice": {
-                      "type": "number"
-                  },
-                  "currency": {
-                      "type": "string"
-                  },
-                  "distanceFromCenter": {
-                      "type": "string"
-                  },
-                  "imageUrl1024x768": {
-                      "type": "string"
-                  }
-              },
-              "required": [
-                  "name"
-              ]
-          },
-          "SearchDestinationResponseContent": {
-              "type": "object",
-              "properties": {
-                  "destinations": {
-                      "type": "array",
-                      "items": {
-                          "$ref": "#/components/schemas/Destination"
-                      }
-                  }
-              }
-          },
-          "TerminalExceptionResponseContent": {
-              "type": "object",
-              "description": "This exception is thrown when a dependency call has failed or an internal error occurs.",
-              "properties": {
-                  "message": {
-                      "type": "string"
-                  }
-              }
+          "detail": {
+            "$ref": "#/components/schemas/ActivityDetail"
           }
+        },
+        "required": ["activityName", "description", "location"]
+      },
+      "ActivityDetail": {
+        "type": "object",
+        "properties": {
+          "photoUri": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "goodForChildren": {
+            "type": "boolean"
+          },
+          "allowsDogs": {
+            "type": "boolean"
+          },
+          "wheelchairAccessibleParking": {
+            "type": "boolean"
+          },
+          "wheelchairAccessibleEntrance": {
+            "type": "boolean"
+          },
+          "websiteUri": {
+            "type": "string"
+          }
+        }
+      },
+      "Day": {
+        "type": "object",
+        "properties": {
+          "dayNumber": {
+            "type": "number"
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Activity"
+            }
+          }
+        },
+        "required": ["activities", "dayNumber"]
+      },
+      "Destination": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "destId": {
+            "type": "string"
+          },
+          "destType": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "$ref": "#/components/schemas/ImageUrl"
+          },
+          "region": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "country",
+          "destId",
+          "destType",
+          "imageUrl",
+          "label",
+          "name"
+        ]
+      },
+      "GetBeerResponseContent": {
+        "type": "object",
+        "properties": {
+          "beer": {
+            "type": "string"
+          }
+        }
+      },
+      "GetItineraryRequestContent": {
+        "type": "object",
+        "properties": {
+          "destination": {
+            "$ref": "#/components/schemas/Destination"
+          },
+          "startDate": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          },
+          "numOfPeople": {
+            "type": "number"
+          }
+        },
+        "required": ["destination", "endDate", "numOfPeople", "startDate"]
+      },
+      "GetItineraryResponseContent": {
+        "type": "object",
+        "properties": {
+          "placesToStay": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlaceToStay"
+            }
+          },
+          "planningDays": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Day"
+            }
+          }
+        },
+        "required": ["planningDays"]
+      },
+      "ImageUrl": {
+        "type": "object",
+        "properties": {
+          "url150px": {
+            "type": "string"
+          },
+          "url1000px": {
+            "type": "string"
+          }
+        }
+      },
+      "NotFoundExceptionResponseContent": {
+        "type": "object",
+        "description": "This exception is thrown when a requested resource does not exist.",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "PlaceToStay": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "reviewScore": {
+            "type": "number",
+            "maximum": 10,
+            "minimum": 1,
+            "format": "float"
+          },
+          "reviewCount": {
+            "type": "number"
+          },
+          "suggestedPrice": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "distanceFromCenter": {
+            "type": "string"
+          },
+          "imageUrl1024x768": {
+            "type": "string"
+          }
+        },
+        "required": ["name"]
+      },
+      "SearchDestinationResponseContent": {
+        "type": "object",
+        "properties": {
+          "destinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Destination"
+            }
+          }
+        }
+      },
+      "TerminalExceptionResponseContent": {
+        "type": "object",
+        "description": "This exception is thrown when a dependency call has failed or an internal error occurs.",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
       }
+    }
   }
 }

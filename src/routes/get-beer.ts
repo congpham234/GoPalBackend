@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express'; 
+import { Router, Request, Response, NextFunction } from 'express';
 
 const getBeer = (router: Router): void => {
   router.get(

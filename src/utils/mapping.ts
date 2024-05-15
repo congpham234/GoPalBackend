@@ -5,7 +5,10 @@ export function mapExternalDestinationToDestination(
   externalDest: ExternalDestination,
 ): Destination {
   const imageUrl150 = externalDest.image_url;
-  const imageUrl1000 = imageUrl150.replace('/150x150/', '/1000x1000/');
+  let imageUrl1000 = '';
+  if (imageUrl150) {
+    imageUrl1000 = imageUrl150.replace('/150x150/', '/1000x1000/');
+  }
 
   return {
     destId: externalDest.dest_id,

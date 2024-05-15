@@ -91,7 +91,7 @@ export class DestinationSearchProcessor {
       reviewScore: input.property.reviewScore,
       countryCode: input.property.countryCode,
       price: input.property.priceBreakdown.grossPrice,
-      photoUrls: photoUrls,
+      photoUrls: input.property.photoUrls,
     };
   }
 

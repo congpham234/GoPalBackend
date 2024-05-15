@@ -51,7 +51,7 @@ export class GetItineraryHandler {
     // TODO: Add Validation for searchDestinationHotelsOutput
     // Temporary commented out the Trip Suggestion
     // tests of this file also were removed
-    
+
     // const planTripOutput: PlanTripOutput =
     //   await this.tripPlanningProcessor.planTrip({
     //     query: request.destination.name,
