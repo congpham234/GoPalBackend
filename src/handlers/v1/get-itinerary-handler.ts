@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   GetItineraryRequestContent,
   GetItineraryResponseContent,
@@ -21,18 +20,46 @@ export class GetItineraryHandler {
     @inject(TripPlanningProcessor)
     private tripPlanningProcessor: TripPlanningProcessor,
     @inject(DestinationSearchProcessor)
-    private destinationSearchProcessor: DestinationSearchProcessor
+    private destinationSearchProcessor: DestinationSearchProcessor,
   ) {}
 
   public async process(
-    request: GetItineraryRequestContent
+    request: GetItineraryRequestContent,
   ): Promise<GetItineraryResponseContent> {
     // TODO: Add DATE validation here;
     const totalDays = calculateDaysBetweenDates(
       request.startDate,
-      request.endDate
+      request.endDate,
     );
 
+    const placesToStay: PlaceToStay[] = await this.searchPlacesToStay(request);
+    const planningDays: PlanningDay[] = await this.planTrip(request, totalDays);
+
+    return {
+      placesToStay,
+      planningDays,
+    };
+  }
+
+  private async planTrip(request: GetItineraryRequestContent, totalDays: number): Promise<PlanningDay[]> {
+    const planTripOutput: PlanTripOutput =
+      await this.tripPlanningProcessor.planTrip({
+        query: request.destination.name,
+        country: request.destination.country,
+        numOfDays: totalDays,
+      });
+
+    const planningDays: PlanningDay[] = [];
+
+    planTripOutput.itinerary.forEach((day: Day) => {
+      planningDays.push(this.mapDayToPlanningDay(day));
+    });
+
+    return planningDays;
+  }
+
+  private async searchPlacesToStay(request: GetItineraryRequestContent): Promise<PlaceToStay[]> {
+    // TODO: Add Validation for searchDestinationHotelsOutput
     const searchDestinationHotelsOutput: SearchDestinationHotelsOutput =
       await this.destinationSearchProcessor.searchDestinationHotels({
         destId: request.destination.destId,
@@ -48,27 +75,7 @@ export class GetItineraryHandler {
       placesToStay.push(this.mapHotelToPlaceToStay(hotel));
     });
 
-    // TODO: Add Validation for searchDestinationHotelsOutput
-    // Temporary commented out the Trip Suggestion
-    // tests of this file also were removed
-
-    // const planTripOutput: PlanTripOutput =
-    //   await this.tripPlanningProcessor.planTrip({
-    //     query: request.destination.name,
-    //     country: request.destination.country,
-    //     numOfDays: totalDays,
-    //   });
-
-    const planningDays: PlanningDay[] = [];
-
-    // planTripOutput.itinerary.forEach((day: Day) => {
-    //   planningDays.push(this.mapDayToPlanningDay(day));
-    // });
-
-    return {
-      placesToStay,
-      planningDays,
-    };
+    return placesToStay;
   }
 
   private mapDayToPlanningDay(input: Day): PlanningDay {

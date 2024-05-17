@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { deepEqual, instance, mock, verify, when } from 'ts-mockito';
 import { GetItineraryHandler } from '../../../src/handlers/v1/get-itinerary-handler';
 import {
@@ -19,7 +18,7 @@ function setupMocks() {
   const mockedDestinationSearchProcessor = mock(DestinationSearchProcessor);
   const handler = new GetItineraryHandler(
     instance(mockedTripPlanningProcessor),
-    instance(mockedDestinationSearchProcessor)
+    instance(mockedDestinationSearchProcessor),
   );
   return {
     mockedTripPlanningProcessor,
@@ -41,117 +40,127 @@ describe('GetItineraryHandler', () => {
   });
 
   it('should correctly process an itinerary request', async () => {
-    // const request: GetItineraryRequestContent = {
-    //   startDate: '2023-01-01',
-    //   endDate: '2023-01-05',
-    //   numOfPeople: 2,
-    //   destination: {
-    //     destId: '123',
-    //     destType: 'city',
-    //     name: 'ExampleCity',
-    //     country: 'ExampleCountry',
-    //     label: 'label',
-    //     imageUrl: {
-    //       url150px: 'imageUrl',
-    //       url1000px: 'imageUrl',
-    //     },
-    //   },
-    // };
-    // const mockedHotels: Hotel[] = [
-    //   {
-    //     name: 'Example Hotel',
-    //     reviewScore: 8.5,
-    //     reviewCount: 150,
-    //     countryCode: 'US',
-    //     price: {
-    //       value: 120,
-    //       currency: 'USD',
-    //     },
-    //     photoUrls: ['http://example.com/photo.jpg'],
-    //   },
-    // ];
-    // const mockedHotelOutput: SearchDestinationHotelsOutput = {
-    //   hotels: mockedHotels,
-    // };
-    // const mockedPlanTripOutput: PlanTripOutput = {
-    //   itinerary: [
-    //     {
-    //       dayNumber: 1,
-    //       activities: [
-    //         {
-    //           activityName: 'activityName',
-    //           location: 'dummyLocation',
-    //           description: 'dummyDescription',
-    //           detail: {},
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // };
-    // when(
-    //   mockedDestinationSearchProcessor.searchDestinationHotels(
-    //     deepEqual({
-    //       destId: '123',
-    //       searchType: 'city',
-    //       startDate: '2023-01-01',
-    //       endDate: '2023-01-05',
-    //       numOfPeople: '2',
-    //     }),
-    //   ),
-    // ).thenResolve(mockedHotelOutput);
-    // when(
-    //   mockedTripPlanningProcessor.planTrip(
-    //     deepEqual({
-    //       query: 'ExampleCity',
-    //       country: 'ExampleCountry',
-    //       numOfDays: 4,
-    //     }),
-    //   ),
-    // ).thenResolve(mockedPlanTripOutput);
-    // const response: GetItineraryResponseContent =
-    //   await handler.process(request);
-    // expect(response.placesToStay).toEqual([
-    //   {
-    //     name: 'Example Hotel',
-    //     reviewScore: 8.5,
-    //     reviewCount: 150,
-    //     suggestedPrice: 120,
-    //     currency: 'USD',
-    //     imageUrl1024x768: 'http://example.com/photo.jpg',
-    //   },
-    // ]);
-    // expect(response.planningDays).toEqual([
-    //   {
-    //     dayNumber: 1,
-    //     activities: [
-    //       {
-    //         activityName: 'activityName',
-    //         location: 'dummyLocation',
-    //         description: 'dummyDescription',
-    //         detail: {},
-    //       },
-    //     ],
-    //   },
-    // ]);
-    // verify(
-    //   mockedDestinationSearchProcessor.searchDestinationHotels(
-    //     deepEqual({
-    //       destId: '123',
-    //       searchType: 'city',
-    //       startDate: '2023-01-01',
-    //       endDate: '2023-01-05',
-    //       numOfPeople: '2',
-    //     }),
-    //   ),
-    // ).once();
-    // verify(
-    //   mockedTripPlanningProcessor.planTrip(
-    //     deepEqual({
-    //       query: 'ExampleCity',
-    //       country: 'ExampleCountry',
-    //       numOfDays: 4,
-    //     }),
-    //   ),
-    // ).once();
+    const request: GetItineraryRequestContent = {
+      startDate: '2023-01-01',
+      endDate: '2023-01-05',
+      numOfPeople: 2,
+      destination: {
+        destId: '123',
+        destType: 'city',
+        name: 'ExampleCity',
+        country: 'ExampleCountry',
+        label: 'label',
+        imageUrl: {
+          url150px: 'imageUrl',
+          url1000px: 'imageUrl',
+        },
+      },
+    };
+
+    const mockedHotels: Hotel[] = [
+      {
+        name: 'Example Hotel',
+        reviewScore: 8.5,
+        reviewCount: 150,
+        countryCode: 'US',
+        price: {
+          value: 120,
+          currency: 'USD',
+        },
+        photoUrls: ['http://example.com/photo.jpg'],
+      },
+    ];
+
+    const mockedHotelOutput: SearchDestinationHotelsOutput = {
+      hotels: mockedHotels,
+    };
+
+    const mockedPlanTripOutput: PlanTripOutput = {
+      itinerary: [
+        {
+          dayNumber: 1,
+          activities: [
+            {
+              activityName: 'activityName',
+              location: 'dummyLocation',
+              description: 'dummyDescription',
+              detail: {},
+            },
+          ],
+        },
+      ],
+    };
+
+    when(
+      mockedDestinationSearchProcessor.searchDestinationHotels(
+        deepEqual({
+          destId: '123',
+          searchType: 'city',
+          startDate: '2023-01-01',
+          endDate: '2023-01-05',
+          numOfPeople: '2',
+        }),
+      ),
+    ).thenResolve(mockedHotelOutput);
+
+    when(
+      mockedTripPlanningProcessor.planTrip(
+        deepEqual({
+          query: 'ExampleCity',
+          country: 'ExampleCountry',
+          numOfDays: 4,
+        }),
+      ),
+    ).thenResolve(mockedPlanTripOutput);
+
+    const response: GetItineraryResponseContent =
+      await handler.process(request);
+
+    expect(response.placesToStay).toEqual([
+      {
+        name: 'Example Hotel',
+        reviewScore: 8.5,
+        reviewCount: 150,
+        suggestedPrice: 120,
+        currency: 'USD',
+        imageUrl1024x768: 'http://example.com/photo.jpg',
+      },
+    ]);
+
+    expect(response.planningDays).toEqual([
+      {
+        dayNumber: 1,
+        activities: [
+          {
+            activityName: 'activityName',
+            location: 'dummyLocation',
+            description: 'dummyDescription',
+            detail: {},
+          },
+        ],
+      },
+    ]);
+
+    verify(
+      mockedDestinationSearchProcessor.searchDestinationHotels(
+        deepEqual({
+          destId: '123',
+          searchType: 'city',
+          startDate: '2023-01-01',
+          endDate: '2023-01-05',
+          numOfPeople: '2',
+        }),
+      ),
+    ).once();
+
+    verify(
+      mockedTripPlanningProcessor.planTrip(
+        deepEqual({
+          query: 'ExampleCity',
+          country: 'ExampleCountry',
+          numOfDays: 4,
+        }),
+      ),
+    ).once();
   });
 });
