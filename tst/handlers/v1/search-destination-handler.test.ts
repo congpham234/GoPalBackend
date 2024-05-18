@@ -25,6 +25,7 @@ describe('SearchDestinationHandler', () => {
     reset(mockedDestinationSearchProcessor);
     consoleErrorMock.mockRestore();
   });
+
   it('should process a search query and return results', async () => {
     const query = 'Paris';
     const mockSearchOutput: SearchDestinationsOutput = {

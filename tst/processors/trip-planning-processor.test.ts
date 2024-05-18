@@ -74,7 +74,12 @@ describe('TripPlanningProcessor', () => {
       itinerary: [
         {
           dayNumber: 1,
-          activities: [{ location: 'Shinjuku Gyoen' }],
+          activities: [
+            {
+              activityName: 'Hanging out',
+              location: 'Shinjuku Gyoen',
+            },
+          ],
         },
       ],
     });
@@ -104,7 +109,7 @@ describe('TripPlanningProcessor', () => {
     when(
       mockGooglePlacesFacade.searchPlaceWithPhoto(
         deepEqual({
-          textQuery: 'Shinjuku Gyoen',
+          textQuery: 'Hanging out, Shinjuku Gyoen',
         }),
       ),
     ).thenResolve(expectedPlaceDetails);
@@ -114,7 +119,7 @@ describe('TripPlanningProcessor', () => {
     verify(
       mockGooglePlacesFacade.searchPlaceWithPhoto(
         deepEqual({
-          textQuery: 'Shinjuku Gyoen',
+          textQuery: 'Hanging out, Shinjuku Gyoen',
         }),
       ),
     ).once();

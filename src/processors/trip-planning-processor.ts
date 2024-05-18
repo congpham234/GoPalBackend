@@ -29,17 +29,17 @@ export class TripPlanningProcessor {
       throw new Error('Failed to parse trip planning response');
     }
 
-    await this.updateActivities(parsedResult.itinerary);
+    await this.updateActivitiesWithDetails(parsedResult.itinerary);
     return parsedResult;
   }
 
-  private async updateActivities(itinerary: Day[]) {
+  private async updateActivitiesWithDetails(itinerary: Day[]) {
     for (const day of itinerary) {
       const promises = day.activities.map(async (activity: Activity) => {
         try {
           const output: SearchPlaceWithPhotoOutput =
             await this.googlePlacesFacade.searchPlaceWithPhoto({
-              textQuery: activity.location,
+              textQuery: `${activity.activityName}, ${activity.location}`,
             });
           return {
             ...activity,
