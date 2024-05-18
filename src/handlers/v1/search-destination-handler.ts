@@ -13,10 +13,6 @@ export class SearchDestinationHandler {
   public async process(
     query: string,
   ): Promise<SearchDestinationResponseContent> {
-    if (!query) {
-      throw new Error('Query parameter is required.');
-    }
-
     try {
       const results: SearchDestinationsOutput =
         await this.destinationSearchProcessor.searchDestinations({ query });

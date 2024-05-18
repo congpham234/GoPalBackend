@@ -25,13 +25,6 @@ describe('SearchDestinationHandler', () => {
     reset(mockedDestinationSearchProcessor);
     consoleErrorMock.mockRestore();
   });
-
-  it('should throw an error if query is not provided', async () => {
-    await expect(searchDestinationHandler.process('')).rejects.toThrow(
-      'Query parameter is required.',
-    );
-  });
-
   it('should process a search query and return results', async () => {
     const query = 'Paris';
     const mockSearchOutput: SearchDestinationsOutput = {
