@@ -1,7 +1,7 @@
 export interface PlanTripInput {
   // Names of locations, cities, districts, places, counties etc.
+  // example, "Cancún International Airport, Cancún, Quintana Roo, Mexico"
   query: string;
-  country: string;
   numOfDays: number;
 }
 

@@ -50,8 +50,7 @@ export class GetItineraryHandler {
   ): Promise<PlanningDay[]> {
     const planTripOutput: PlanTripOutput =
       await this.tripPlanningProcessor.planTrip({
-        query: request.destination.name,
-        country: request.destination.country,
+        query: request.destination.label,
         numOfDays: totalDays,
       });
 

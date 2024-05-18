@@ -32,8 +32,7 @@ describe('TripPlanningProcessor', () => {
   it('should call OpenAiFacade with correct prompts and parse the JSON response', async () => {
     const input: PlanTripInput = {
       numOfDays: 3,
-      query: 'Tokyo',
-      country: 'Japan',
+      query: 'Tokyo, Japan',
     };
     const fakeResponse = JSON.stringify({
       itinerary: [],
@@ -42,7 +41,7 @@ describe('TripPlanningProcessor', () => {
       mockOpenAiFacade.answer(
         'You only return the JSON response with the exact given format ' +
           tripPlanningProcessor['buildJsonPrompt'](),
-        'Can you help me plan a 3 days trip at Tokyo, Japan?',
+        'Can you help me plan a 3 days trip at or near Tokyo, Japan?',
       ),
     ).thenResolve(fakeResponse);
 
@@ -55,8 +54,7 @@ describe('TripPlanningProcessor', () => {
   it('should handle JSON parsing errors', async () => {
     const input: PlanTripInput = {
       numOfDays: 3,
-      query: 'Tokyo',
-      country: 'Japan',
+      query: 'Tokyo, Japan',
     };
     when(mockOpenAiFacade.answer(anyString(), anyString())).thenResolve(
       'invalid json',
@@ -71,7 +69,6 @@ describe('TripPlanningProcessor', () => {
     const input: PlanTripInput = {
       numOfDays: 3,
       query: 'Tokyo',
-      country: 'Japan',
     };
     const fakeResponse = JSON.stringify({
       itinerary: [

@@ -49,7 +49,7 @@ describe('GetItineraryHandler', () => {
         destType: 'city',
         name: 'ExampleCity',
         country: 'ExampleCountry',
-        label: 'label',
+        label: 'ExampleCity, ExampleCountry',
         imageUrl: {
           url150px: 'imageUrl',
           url1000px: 'imageUrl',
@@ -106,8 +106,7 @@ describe('GetItineraryHandler', () => {
     when(
       mockedTripPlanningProcessor.planTrip(
         deepEqual({
-          query: 'ExampleCity',
-          country: 'ExampleCountry',
+          query: 'ExampleCity, ExampleCountry',
           numOfDays: 4,
         }),
       ),
@@ -156,8 +155,7 @@ describe('GetItineraryHandler', () => {
     verify(
       mockedTripPlanningProcessor.planTrip(
         deepEqual({
-          query: 'ExampleCity',
-          country: 'ExampleCountry',
+          query: 'ExampleCity, ExampleCountry',
           numOfDays: 4,
         }),
       ),
@@ -174,7 +172,7 @@ describe('GetItineraryHandler', () => {
         destType: 'city',
         name: 'ExampleCity',
         country: 'ExampleCountry',
-        label: 'label',
+        label: 'ExampleCity, ExampleCountry',
         imageUrl: {
           url150px: 'imageUrl',
           url1000px: 'imageUrl',
@@ -197,7 +195,7 @@ describe('GetItineraryHandler', () => {
         destType: 'city',
         name: 'ExampleCity',
         country: 'ExampleCountry',
-        label: 'label',
+        label: 'ExampleCity, ExampleCountry',
         imageUrl: {
           url150px: 'imageUrl',
           url1000px: 'imageUrl',
