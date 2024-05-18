@@ -163,4 +163,50 @@ describe('GetItineraryHandler', () => {
       ),
     ).once();
   });
+
+  it('should throw an error if endDate is before startDate', async () => {
+    const request: GetItineraryRequestContent = {
+      startDate: '2023-01-05',
+      endDate: '2023-01-01',
+      numOfPeople: 2,
+      destination: {
+        destId: '123',
+        destType: 'city',
+        name: 'ExampleCity',
+        country: 'ExampleCountry',
+        label: 'label',
+        imageUrl: {
+          url150px: 'imageUrl',
+          url1000px: 'imageUrl',
+        },
+      },
+    };
+
+    await expect(handler.process(request)).rejects.toThrow(
+      'The end date must be after the start date.',
+    );
+  });
+
+  it('should throw an error if endDate is the same as startDate', async () => {
+    const request: GetItineraryRequestContent = {
+      startDate: '2023-01-01',
+      endDate: '2023-01-01',
+      numOfPeople: 2,
+      destination: {
+        destId: '123',
+        destType: 'city',
+        name: 'ExampleCity',
+        country: 'ExampleCountry',
+        label: 'label',
+        imageUrl: {
+          url150px: 'imageUrl',
+          url1000px: 'imageUrl',
+        },
+      },
+    };
+
+    await expect(handler.process(request)).rejects.toThrow(
+      'The end date must be after the start date.',
+    );
+  });
 });

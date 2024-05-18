@@ -26,11 +26,14 @@ export class GetItineraryHandler {
   public async process(
     request: GetItineraryRequestContent,
   ): Promise<GetItineraryResponseContent> {
-    // TODO: Add DATE validation here;
     const totalDays = calculateDaysBetweenDates(
       request.startDate,
       request.endDate,
     );
+
+    if (totalDays <= 0) {
+      throw new Error('The end date must be after the start date.');
+    }
 
     const placesToStay: PlaceToStay[] = await this.searchPlacesToStay(request);
     const planningDays: PlanningDay[] = await this.planTrip(request, totalDays);
@@ -41,7 +44,10 @@ export class GetItineraryHandler {
     };
   }
 
-  private async planTrip(request: GetItineraryRequestContent, totalDays: number): Promise<PlanningDay[]> {
+  private async planTrip(
+    request: GetItineraryRequestContent,
+    totalDays: number,
+  ): Promise<PlanningDay[]> {
     const planTripOutput: PlanTripOutput =
       await this.tripPlanningProcessor.planTrip({
         query: request.destination.name,
@@ -58,7 +64,9 @@ export class GetItineraryHandler {
     return planningDays;
   }
 
-  private async searchPlacesToStay(request: GetItineraryRequestContent): Promise<PlaceToStay[]> {
+  private async searchPlacesToStay(
+    request: GetItineraryRequestContent,
+  ): Promise<PlaceToStay[]> {
     // TODO: Add Validation for searchDestinationHotelsOutput
     const searchDestinationHotelsOutput: SearchDestinationHotelsOutput =
       await this.destinationSearchProcessor.searchDestinationHotels({

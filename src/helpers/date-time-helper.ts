@@ -12,6 +12,5 @@ export const calculateDaysBetweenDates = (
   // Convert the difference from milliseconds to days
   const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
 
-  // Return the absolute number of days (rounded down)
-  return Math.floor(Math.abs(differenceInDays));
+  return Math.floor(differenceInDays);
 };
