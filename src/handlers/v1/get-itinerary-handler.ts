@@ -7,7 +7,7 @@ import {
 import { TripPlanningProcessor } from '../../processors/trip-planning-processor';
 import { inject, singleton } from 'tsyringe';
 import { Day, PlanTripOutput } from '../../processors/models/plan-trip';
-import { calculateDaysBetweenDates } from '../../helpers/date-time-helper';
+import { calculateDaysBetweenDates } from '../../utils/date-time-util';
 import { DestinationSearchProcessor } from '../../processors/destination-search-processor';
 import {
   Hotel,

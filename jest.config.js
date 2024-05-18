@@ -8,16 +8,14 @@ module.exports = {
   collectCoverageFrom: [
     '!**/*.{js,jsx}',
     '!**/node_modules/**',
-    '!**/vendor/**',
     '!**/app.ts',
     '!**/src/mocks/**',
     '!**/src/models/**',
     '!**/routes/router.ts',
-    '!**/apis/**',
-    '!**/generated/**',
     '!**/middlewares/**',
     '!**/exceptions/**',
     '!**/routes/**',
+    '!**/constants/**',
   ],
   coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}]],
   // coverageThreshold: {

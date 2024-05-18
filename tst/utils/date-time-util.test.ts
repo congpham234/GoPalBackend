@@ -1,4 +1,4 @@
-import { calculateDaysBetweenDates } from '../../src/helpers/date-time-helper';
+import { calculateDaysBetweenDates } from '../../src/utils/date-time-util';
 
 describe('calculateDaysBetweenDates', () => {
   it('should return the correct number of days between two dates', () => {
