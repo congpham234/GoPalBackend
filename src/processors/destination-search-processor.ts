@@ -53,18 +53,11 @@ export class DestinationSearchProcessor {
           adults: input.numOfPeople.toString(),
         });
 
-      // Limit the results to 5 hotels.
-      // TODO: think of a way to cache this
-      const limitedHotels: ExternalHotel[] = hotelsOutput.data.hotels.slice(
-        0,
-        5,
-      );
-
       // Properly initialize the hotels array with type Hotel[]
       const hotels: Hotel[] = [];
 
       // Use forEach to iterate over limitedHotels of type ExternalHotel[]
-      limitedHotels.forEach((externalHotel: ExternalHotel) => {
+      hotelsOutput.data.hotels.forEach((externalHotel: ExternalHotel) => {
         hotels.push(this.mapToHotel(externalHotel));
       });
 
