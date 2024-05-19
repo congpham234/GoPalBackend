@@ -18,7 +18,7 @@ export class TripPlanningProcessor {
 
   public async planTrip(input: PlanTripInput): Promise<PlanTripOutput> {
     const systemPrompt = `You only return the JSON response with the exact given format ${this.buildJsonPrompt()}`;
-    const userPrompt = `Can you help me plan a ${input.numOfDays} days trip at or near ${input.query}?`;
+    const userPrompt = `Can you help me plan a ${input.numOfDays} days trip at or within 50km of ${input.query}?`;
     const answer = await this.openAiFacade.answer(systemPrompt, userPrompt);
 
     let parsedResult: PlanTripOutput;

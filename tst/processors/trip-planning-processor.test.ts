@@ -41,7 +41,7 @@ describe('TripPlanningProcessor', () => {
       mockOpenAiFacade.answer(
         'You only return the JSON response with the exact given format ' +
           tripPlanningProcessor['buildJsonPrompt'](),
-        'Can you help me plan a 3 days trip at or near Tokyo, Japan?',
+        'Can you help me plan a 3 days trip at or within 50km of Tokyo, Japan?',
       ),
     ).thenResolve(fakeResponse);
 
