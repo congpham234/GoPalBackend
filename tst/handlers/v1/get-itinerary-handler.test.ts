@@ -107,7 +107,7 @@ describe('GetItineraryHandler', () => {
       mockedTripPlanningProcessor.planTrip(
         deepEqual({
           query: 'ExampleCity, ExampleCountry',
-          numOfDays: 4,
+          numOfDays: 5,
         }),
       ),
     ).thenResolve(mockedPlanTripOutput);
@@ -156,7 +156,7 @@ describe('GetItineraryHandler', () => {
       mockedTripPlanningProcessor.planTrip(
         deepEqual({
           query: 'ExampleCity, ExampleCountry',
-          numOfDays: 4,
+          numOfDays: 5,
         }),
       ),
     ).once();

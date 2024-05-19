@@ -26,7 +26,7 @@ export class GetItineraryHandler {
   public async process(
     request: GetItineraryRequestContent,
   ): Promise<GetItineraryResponseContent> {
-    const totalDays = calculateDaysBetweenDates(
+    let totalDays = calculateDaysBetweenDates(
       request.startDate,
       request.endDate,
     );
@@ -34,6 +34,9 @@ export class GetItineraryHandler {
     if (totalDays <= 0) {
       throw new Error('The end date must be after the start date.');
     }
+
+    // Add 1 total day because the diff doesn't give include itself
+    totalDays += 1;
 
     const placesToStay: PlaceToStay[] = await this.searchPlacesToStay(request);
     const planningDays: PlanningDay[] = await this.planTrip(request, totalDays);
