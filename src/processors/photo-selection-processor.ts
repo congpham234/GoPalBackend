@@ -17,13 +17,15 @@ export class PhotoSelectionService {
     }[],
   ): Promise<string[]> {
     const systemPrompt = `
-      You are given multiple lists of photos. Each photo has a tag and a unique ID. Your task is to determine the best photo in each list based on the provided description.
-      For each list, return the ID of the best matching photo.
+      You are a photo selection assistant. Your goal is to find the most relevant photo from each provided list based on the description.
+      Each photo has a tag and a unique ID. 
+      For each list, evaluate the photos based on how well their tags match the description.
+      Return the ID of the best matching photo for each list.
       If no photo matches the description well, return an empty string for that list.
       Your response should be a JSON array where each element corresponds to the best photo ID for each list.
       Example: [{"photoId": "123e4567-e89b-12d3-a456-426614174000"}, {"photoId": ""}, {"photoId": "987e6543-e21b-43d3-b765-765432176543"}]
     `;
-    const userPrompt = `Here are the photo lists: ${JSON.stringify(allPhotoLists)}`;
+    const userPrompt = `Here are the photo lists: ${JSON.stringify(allPhotoLists)}. Evaluate the photos based on how well their tags match the following descriptions.`;
     const answer = await this.openAiFacade.answer(systemPrompt, userPrompt);
 
     try {

@@ -49,7 +49,6 @@ export class GooglePlacesFacade {
       `Calling Google Places API ${endpoint} with options: ${JSON.stringify(options)}`
     );
     const response = await axios.request(options);
-    console.log('Google Places response: \n', JSON.stringify(response.data));
     return response.data;
   }
 
