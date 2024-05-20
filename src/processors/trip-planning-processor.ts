@@ -6,14 +6,13 @@ import {
   PlanTripOutput,
 } from './models/plan-trip';
 import { OpenAiFacade } from '../externalservice/ai/open-ai-facade';
-import { GooglePlacesFacade } from '../externalservice/tripplanning/google-places-facade';
-import { SearchPlaceWithPhotoOutput } from '../externalservice/tripplanning/models/googleplaces';
+import { PlacePhotoProcessor } from './place-photo-processor';
 
 @singleton()
 export class TripPlanningProcessor {
   constructor(
     @inject(OpenAiFacade) private openAiFacade: OpenAiFacade,
-    @inject(GooglePlacesFacade) private googlePlacesFacade: GooglePlacesFacade,
+    @inject(PlacePhotoProcessor) private photoProcessor: PlacePhotoProcessor,
   ) {}
 
   public async planTrip(input: PlanTripInput): Promise<PlanTripOutput> {
@@ -35,34 +34,22 @@ export class TripPlanningProcessor {
 
   private async updateActivitiesWithDetails(itinerary: Day[]) {
     for (const day of itinerary) {
-      const promises = day.activities.map(async (activity: Activity) => {
-        try {
-          const output: SearchPlaceWithPhotoOutput =
-            await this.googlePlacesFacade.searchPlaceWithPhoto({
-              textQuery: `${activity.activityName}, ${activity.location}`,
-            });
+      const queries: string[] = day.activities.map(
+        (activity: Activity) => `${activity.location}`,
+      );
+
+      const photosOutput = await this.photoProcessor.searchPhotos({ queries });
+      const promises = day.activities.map(
+        async (activity: Activity, index: number) => {
+          const photo = photosOutput.photos[index];
           return {
             ...activity,
             detail: {
-              googleMapsUri: output.place.googleMapsUri,
-              formattedAddress: output.place.formattedAddress,
-              latitude: output.place.location?.latitude,
-              longitude: output.place.location?.longitude,
-              goodForChildren: output.place.goodForChildren,
-              allowsDogs: output.place.allowsDogs,
-              wheelchairAccessibleParking:
-                output.place.accessibilityOptions?.wheelchairAccessibleParking,
-              wheelchairAccessibleEntrance:
-                output.place.accessibilityOptions?.wheelchairAccessibleEntrance,
-              websiteUri: output.place.websiteUri,
-              photoUri: output.photoUri,
+              photoUri: photo ? photo.photoUri : '',
             },
           };
-        } catch (error) {
-          console.error('Error fetching place details:', error);
-          return activity;
-        }
-      });
+        },
+      );
 
       const updatedActivities = await Promise.all(promises);
       day.activities = updatedActivities;
@@ -79,7 +66,8 @@ export class TripPlanningProcessor {
             {
               activityName:
                 'the name of the activity, for example "Exploring Stanley Park"',
-              location: 'the location name for example "Stanley Park"',
+              location:
+                'the location name for example "Stanley Park, Vancouver". Location must be from the activityName',
               description: 'a few sentences about this location or activity',
             },
           ],

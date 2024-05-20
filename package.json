@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "npm run prettify && npm run format && npm run lint && npm run coverage && rm -rf dist",
+    "prebuild": "npm run lint && npm run coverage && rm -rf dist",
     "build": "npm run buildx",
     "test": "jest --detectOpenHandles",
     "buildx": "esbuild src/lambda-handler.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
     "coverage": "jest --coverage",
     "lint": "eslint .",
-    "format": "npm run lint -- --fix",
+    "format": "npm run prettify && npm run lint -- --fix",
     "prepare": "husky",
     "start": "nodemon",
     "prettify": "prettier --write ."

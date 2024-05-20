@@ -2,21 +2,21 @@ import { TripPlanningProcessor } from '../../src/processors/trip-planning-proces
 import { mock, instance, when, verify, anyString, deepEqual } from 'ts-mockito';
 import { OpenAiFacade } from '../../src/externalservice/ai/open-ai-facade';
 import { PlanTripInput } from '../../src/processors/models/plan-trip';
-import { GooglePlacesFacade } from '../../src/externalservice/tripplanning/google-places-facade';
-import { SearchPlaceWithPhotoOutput } from '../../src/externalservice/tripplanning/models/googleplaces';
+import { PlacePhotoProcessor } from '../../src/processors/place-photo-processor';
+import { Photo, SearchPhotosOutput } from '../../src/processors/models/photos';
 
 describe('TripPlanningProcessor', () => {
   let tripPlanningProcessor: TripPlanningProcessor;
   let mockOpenAiFacade: OpenAiFacade;
-  let mockGooglePlacesFacade: GooglePlacesFacade;
+  let mockPlacePhotoProcessor: PlacePhotoProcessor;
   let consoleErrorMock: jest.SpyInstance;
 
   beforeEach(() => {
     mockOpenAiFacade = mock(OpenAiFacade);
-    mockGooglePlacesFacade = mock(GooglePlacesFacade);
+    mockPlacePhotoProcessor = mock(PlacePhotoProcessor);
     tripPlanningProcessor = new TripPlanningProcessor(
       instance(mockOpenAiFacade),
-      instance(mockGooglePlacesFacade),
+      instance(mockPlacePhotoProcessor),
     );
 
     consoleErrorMock = jest
@@ -25,7 +25,6 @@ describe('TripPlanningProcessor', () => {
   });
 
   afterEach(() => {
-    // Restore the original implementation so that it does not affect other tests
     consoleErrorMock.mockRestore();
   });
 
@@ -39,8 +38,7 @@ describe('TripPlanningProcessor', () => {
     });
     when(
       mockOpenAiFacade.answer(
-        'You only return the JSON response with the exact given format ' +
-          tripPlanningProcessor['buildJsonPrompt'](),
+        'You only return the JSON response with the exact given format {"itinerary":[{"dayNumber":"the type is number and it is unique in the list, each day should have 3 activities","activities":[{"activityName":"the name of the activity, for example \\"Exploring Stanley Park\\"","location":"the location name for example \\"Stanley Park, Vancouver\\". Location must be from the activityName","description":"a few sentences about this location or activity"}]}]}',
         'Can you help me plan a 3 days trip at or within 50km of Tokyo, Japan?',
       ),
     ).thenResolve(fakeResponse);
@@ -65,7 +63,7 @@ describe('TripPlanningProcessor', () => {
     );
   });
 
-  it('should update activities with details from GooglePlacesFacade', async () => {
+  it('should update activities with details from PlacePhotoProcessor', async () => {
     const input: PlanTripInput = {
       numOfDays: 3,
       query: 'Tokyo',
@@ -78,62 +76,37 @@ describe('TripPlanningProcessor', () => {
             {
               activityName: 'Hanging out',
               location: 'Shinjuku Gyoen',
+              description: 'A beautiful park in Tokyo',
             },
           ],
         },
       ],
     });
-    const expectedPlaceDetails: SearchPlaceWithPhotoOutput = {
-      place: {
-        googleMapsUri: 'http://maps.google.com/example',
-        formattedAddress: 'Shinjuku, Tokyo, Japan',
-        location: { latitude: 35.6895, longitude: 139.6917 },
-        goodForChildren: true,
-        allowsDogs: false,
-        displayName: {
-          text: 'Dummy display name',
-          languageCode: 'en',
-        },
-        photos: [],
-        accessibilityOptions: {
-          wheelchairAccessibleParking: true,
-          wheelchairAccessibleEntrance: false,
-        },
-        websiteUri: 'http://example.com',
-      },
-      photoUri: 'http://example.com/photo.jpg',
+    const expectedPhotosOutput: SearchPhotosOutput = {
+      photos: [
+        {
+          photoUri: 'http://example.com/photo.jpg',
+        } as Photo,
+      ],
     };
     when(mockOpenAiFacade.answer(anyString(), anyString())).thenResolve(
       fakeResponse,
     );
     when(
-      mockGooglePlacesFacade.searchPlaceWithPhoto(
-        deepEqual({
-          textQuery: 'Hanging out, Shinjuku Gyoen',
-        }),
+      mockPlacePhotoProcessor.searchPhotos(
+        deepEqual({ queries: ['Shinjuku Gyoen'] }),
       ),
-    ).thenResolve(expectedPlaceDetails);
+    ).thenResolve(expectedPhotosOutput);
 
     const result = await tripPlanningProcessor.planTrip(input);
 
     verify(
-      mockGooglePlacesFacade.searchPlaceWithPhoto(
-        deepEqual({
-          textQuery: 'Hanging out, Shinjuku Gyoen',
-        }),
+      mockPlacePhotoProcessor.searchPhotos(
+        deepEqual({ queries: ['Shinjuku Gyoen'] }),
       ),
     ).once();
 
     expect(result.itinerary[0].activities[0].detail).toEqual({
-      googleMapsUri: 'http://maps.google.com/example',
-      formattedAddress: 'Shinjuku, Tokyo, Japan',
-      latitude: 35.6895,
-      longitude: 139.6917,
-      goodForChildren: true,
-      allowsDogs: false,
-      wheelchairAccessibleParking: true,
-      wheelchairAccessibleEntrance: false,
-      websiteUri: 'http://example.com',
       photoUri: 'http://example.com/photo.jpg',
     });
   });

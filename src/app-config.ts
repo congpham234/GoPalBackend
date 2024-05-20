@@ -68,6 +68,6 @@ export enum AppConfigKey {
   BOOKING_DOT_COM_API_KEY = 'BookingDotComAPIKey',
   OPEN_AI_API_KEY = 'OpenAiAPIKeyId',
   GOOGLE_PLACES_API_KEY = 'GooglePlacesAPIKey',
-  PIXABAY_API_JEY = 'PixabayAPIKey',
+  PIXABAY_API_KEY = 'PixabayAPIKey',
   AWS_REGION = 'AWS_REGION',
 }
