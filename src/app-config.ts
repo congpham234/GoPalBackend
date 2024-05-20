@@ -6,27 +6,36 @@ import {
 
 @singleton()
 export class AppConfig {
-  private secrets: Map<string, string>;
+  private keyvalues: Map<string, string>;
 
   constructor() {
-    this.secrets = new Map<string, string>();
-    this.secrets.set(
-      AppConfigKey.AWS_REGION,
-      process.env.AWS_REGION || 'us-west-2',
-    );
+    this.keyvalues = new Map<string, string>();
   }
 
   public async getValue(key: AppConfigKey): Promise<string> {
-    if (this.secrets.has(key)) {
-      return this.secrets.get(key) as string;
+    if (this.keyvalues.has(key)) {
+      return this.keyvalues.get(key) as string;
     } else {
-      const secret = await getSecret(
-        key,
-        this.secrets.get(AppConfigKey.AWS_REGION) as string,
-      );
-      this.secrets.set(key, secret);
-      return secret;
+      await this.loadSecrets();
+      return this.keyvalues.get(key) as string;
     }
+  }
+
+  private async loadSecrets(): Promise<void> {
+    const secretString = await getSecret(
+      'GoPalBackendExternalAPIKeyId',
+      this.keyvalues.get(AppConfigKey.AWS_REGION) as string,
+    );
+
+    const secretObject = JSON.parse(secretString);
+    for (const [key, value] of Object.entries(secretObject)) {
+      this.keyvalues.set(key, value as string);
+    }
+
+    this.keyvalues.set(
+      AppConfigKey.AWS_REGION,
+      process.env.AWS_REGION || 'us-west-2',
+    );
   }
 }
 
@@ -55,5 +64,6 @@ export enum AppConfigKey {
   BOOKING_DOT_COM_API_KEY = 'BookingDotComAPIKey',
   OPEN_AI_API_KEY = 'OpenAiAPIKeyId',
   GOOGLE_PLACES_API_KEY = 'GooglePlacesAPIKey',
+  PIXABAY_API_JEY = 'PixabayAPIKey',
   AWS_REGION = 'AWS_REGION',
 }
