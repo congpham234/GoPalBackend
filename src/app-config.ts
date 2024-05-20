@@ -17,7 +17,12 @@ export class AppConfig {
       return this.keyvalues.get(key) as string;
     } else {
       await this.loadSecrets();
-      return this.keyvalues.get(key) as string;
+      if (this.keyvalues.has(key)) {
+        return this.keyvalues.get(key) as string;
+      }
+      else {
+        throw Error("Could not find the API KEY: " + key);
+      }
     }
   }
 
