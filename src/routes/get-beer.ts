@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
+// This is a testing handler. You can change anything here and test it out.
 const getBeer = (router: Router): void => {
   router.get(
     '/v1/get-beer',
